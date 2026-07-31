@@ -13,8 +13,6 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
   const [resolu, setResolu] = useState(false);
   const [indiceOffert, setIndiceOffert] = useState(false);
   const [indiceLu, setIndiceLu] = useState(false);
-  // Sert de `key` au niveau : l'incrémenter le remonte à neuf.
-  const [essai, setEssai] = useState(0);
 
   const Composant = niveau.composant;
   const suivant = niveau.numero < TOTAL_NIVEAUX ? niveau.numero + 1 : null;
@@ -25,19 +23,16 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
     marquer(niveau.numero);
   }, [marquer, niveau.numero]);
 
-  // L'ampoule apparaît après un moment, et repart à zéro à chaque reprise.
+  // L'ampoule n'apparaît qu'au bout d'un moment : chercher fait partie du jeu.
   useEffect(() => {
     if (resolu) return;
     const id = window.setTimeout(() => setIndiceOffert(true), DELAI_INDICE_MS);
     return () => window.clearTimeout(id);
-  }, [essai, resolu]);
+  }, [resolu]);
 
-  const recommencer = () => {
-    setResolu(false);
-    setIndiceOffert(false);
-    setIndiceLu(false);
-    setEssai((n) => n + 1);
-  };
+  // Aucun niveau ne peut être bloqué — ceux qui se dérèglent se rallument
+  // d'eux-mêmes — donc la seule sortie utile est d'avancer.
+  const peutAvancer = resolu || dejaResolu;
 
   return (
     <div className="mx-auto flex w-full max-w-md flex-col gap-8 px-5 py-10">
@@ -65,7 +60,7 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
 
       {/* L'aire de jeu : aucune consigne, c'est tout l'exercice. */}
       <div className="flex aspect-square w-full items-center justify-center">
-        <Composant key={essai} onResolu={onResolu} />
+        <Composant onResolu={onResolu} />
       </div>
 
       <div className="flex min-h-16 flex-col items-center gap-3 text-center">
@@ -73,38 +68,20 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
           <p className="text-sm text-muted italic">{niveau.indice}</p>
         )}
 
-        {resolu ? (
-          <div className="flex items-center gap-4">
-            <button
-              onClick={recommencer}
-              className="cursor-pointer text-sm text-muted transition hover:text-text"
+        {peutAvancer &&
+          (suivant ? (
+            <Link
+              href={`/noir/${suivant}`}
+              aria-label="Niveau suivant"
+              className="text-lg transition hover:opacity-70"
             >
-              Recommencer
-            </button>
-            {suivant ? (
-              <Link
-                href={`/noir/${suivant}`}
-                className="text-2xl leading-none transition hover:opacity-70"
-                aria-label="Niveau suivant"
-              >
-                →
-              </Link>
-            ) : (
-              <Link href="/" className="text-sm transition hover:opacity-70">
-                Tous les niveaux sont noirs.
-              </Link>
-            )}
-          </div>
-        ) : (
-          dejaResolu && (
-            <button
-              onClick={recommencer}
-              className="cursor-pointer text-sm text-muted transition hover:text-text"
-            >
-              Recommencer
-            </button>
-          )
-        )}
+              suivant
+            </Link>
+          ) : (
+            <Link href="/" className="text-lg transition hover:opacity-70">
+              Tous les niveaux sont noirs.
+            </Link>
+          ))}
       </div>
     </div>
   );

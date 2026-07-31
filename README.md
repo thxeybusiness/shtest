@@ -10,8 +10,11 @@ Inspiré de *black (game)* de Bart Bonte.
 ## Les énigmes
 
 `/` est le sommaire ; `/noir/[n]` est un niveau. Il faut résoudre un niveau
-pour ouvrir le suivant. Le seul texte du jeu est l'indice, et il ne se propose
-qu'au bout de 35 secondes, derrière une ampoule.
+pour ouvrir le suivant, et une fois résolu le seul lien proposé est
+« suivant ». Aucun niveau ne peut être bloqué — ceux qui se dérèglent se
+rallument d'eux-mêmes — donc il n'y a rien à recommencer. Le seul autre texte
+du jeu est l'indice, et il ne se propose qu'au bout de 35 secondes, derrière
+une ampoule.
 
 Chaque niveau est un composant autonome dans `components/noir/niveaux/`, qui
 signale sa résolution par `onResolu`. En ajouter un ne demande que ce composant
