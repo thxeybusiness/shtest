@@ -1,37 +1,36 @@
 # noir
 
-Un jeu d'énigmes : **faites disparaître l'écran dans la couleur du niveau**.
-Seize niveaux, chacun avec sa propre logique, et aucune n'est expliquée —
+Un jeu d'énigmes : **faites disparaître l'écran dans la couleur du palier**.
+Vingt niveaux, chacun avec sa propre logique, et aucune n'est expliquée —
 deviner la règle *est* le niveau. Tout se joue dans le navigateur, sans compte
 ni backend ; la progression est stockée localement.
 
 Inspiré de *black (game)* de Bart Bonte.
 
-## Les couleurs
+## Les paliers
 
-Chaque niveau a sa cible. Le premier est noir ; le deuxième bascule au blanc,
-pour le contraste maximal ; les suivants s'en éloignent par un dégradé continu
-qui se réchauffe (ivoire, sable, terre cuite, brique) puis replonge vers la
-nuit. Le sommaire affiche chaque niveau résolu dans sa couleur : la série s'y
-lit d'un coup d'œil.
+Le jeu avance par **paliers de dix niveaux**, et un palier entier partage la
+même couleur à atteindre : le premier est noir, le second blanc. Un palier ne
+s'ouvre que lorsque les dix niveaux du précédent sont résolus ; à l'intérieur
+d'un palier, chaque niveau ouvre le suivant. Sur le sommaire, un bandeau
+dégrade la couleur d'un palier vers celle du suivant — du noir au blanc, puis
+du blanc vers ce qui viendra.
 
-La couleur de repos n'est pas choisie à la main mais calculée : des deux
-neutres disponibles, on retient celui qui contraste le plus avec la cible, au
-sens WCAG. Aucun couple ne descend sous 3,5:1.
+La couleur de repos n'est pas choisie à la main : des deux neutres
+disponibles, on retient celui qui contraste le plus avec la cible, au sens
+WCAG. Ajouter un palier ne demande qu'une entrée dans `lib/noir/paliers.ts`.
 
 ## Les énigmes
 
-`/` est le sommaire ; `/noir/[n]` est un niveau. Il faut résoudre un niveau
-pour ouvrir le suivant, et une fois résolu le seul lien proposé est
-« suivant ». Aucun niveau ne peut être bloqué — ceux qui se dérèglent se
-rallument d'eux-mêmes — donc il n'y a rien à recommencer. Le seul autre texte
-du jeu est l'indice, et il ne se propose qu'au bout de 35 secondes, derrière
-une ampoule.
+`/` est le sommaire ; `/noir/[n]` est un niveau. Une fois résolu, le seul lien
+proposé est « suivant ». Aucun niveau ne peut être bloqué — ceux qui se
+dérèglent se rallument d'eux-mêmes — donc il n'y a rien à recommencer. Le seul
+autre texte du jeu est l'indice, et il ne se propose qu'au bout de 35 secondes,
+derrière une ampoule.
 
 Chaque niveau est un composant autonome dans `components/noir/niveaux/`, qui
 signale sa résolution par `onResolu` et lit sa couleur dans le contexte plutôt
-que de la coder en dur. En ajouter un ne demande que ce composant, une entrée
-dans `lib/noir/niveaux.ts` et une cible dans la table des couleurs.
+que de la coder en dur.
 
 | # | Logique |
 | --- | --- |
@@ -51,6 +50,23 @@ dans `lib/noir/niveaux.ts` et une cible dans la table des couleurs.
 | 14 | Faire tomber le grand nombre exactement à zéro |
 | 15 | Trois teintes, un cran à la fois, les diagonales suivent |
 | 16 | Comme la séquence, mais à reproduire à l'envers |
+| 17 | Deux axes de symétrie : les quatre coins vont ensemble |
+| 18 | La ligne entière avance d'un cran, et sa tête change au passage |
+| 19 | Alterner d'une moitié à l'autre, jamais deux fois le même côté |
+| 20 | Chaque toucher ne compte que s'il prend son temps |
+
+## Illustrations et mouvement
+
+Aucun émoji : leur rendu varie d'une machine à l'autre et leurs couleurs
+échappent à la direction artistique. Tout est dessiné au trait sur une grille
+de 24 dans `components/icones.tsx`, calé sur `currentColor` — l'ampoule des
+indices, le cadenas des paliers verrouillés, les étoiles des casse-têtes et
+une illustration par mécanique.
+
+Le mouvement reste discret et n'a qu'un rôle de rythme : une entrée en fondu
+décalée sur les niveaux du sommaire, une onde qui traverse la grille au moment
+où le niveau tombe, et une respiration de l'ampoule quand l'indice devient
+disponible. Tout est neutralisé sous `prefers-reduced-motion`.
 
 ## Le reste du site
 

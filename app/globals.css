@@ -154,7 +154,64 @@ body {
   animation: tense 1.15s ease-in-out infinite;
 }
 
+
+/*
+ * Motion design : de brèves animations d'entrée et de réussite. Elles n'ont
+ * qu'un rôle de rythme — le jeu reste jouable si elles sont désactivées.
+ */
+@keyframes apparition {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.apparait {
+  animation: apparition 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* Onde qui traverse la grille au moment où le niveau tombe. */
+@keyframes onde {
+  0% {
+    transform: scale(1);
+  }
+  40% {
+    transform: scale(1.06);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.onde > * {
+  animation: onde 520ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* L'ampoule se signale doucement quand l'indice devient disponible. */
+@keyframes respiration {
+  0%,
+  100% {
+    opacity: 0.55;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+
+.respire {
+  animation: respiration 2.4s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
+  .apparait,
+  .onde > *,
+  .respire,
   .scrolling-grid,
   .danger-vignette[data-critical="true"],
   .tense {

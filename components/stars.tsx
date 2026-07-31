@@ -1,6 +1,7 @@
+import { Etoile } from "@/components/icones";
 import { cn } from "@/lib/cn";
 
-/** Trois étoiles, dont `count` allumées. */
+/** Trois étoiles, dont `count` pleines. */
 export function Stars({
   count,
   size = "sm",
@@ -10,25 +11,19 @@ export function Stars({
 }) {
   return (
     <span
-      className={cn(
-        "inline-flex gap-0.5",
-        size === "lg" ? "text-3xl" : "text-sm",
-      )}
+      className="inline-flex gap-0.5"
       aria-label={`${count} étoile${count > 1 ? "s" : ""} sur 3`}
       role="img"
     >
       {[1, 2, 3].map((slot) => (
-        <span
+        <Etoile
           key={slot}
-          aria-hidden
-          className={
-            slot <= count
-              ? "text-tone-sand "
-              : "text-border"
-          }
-        >
-          ★
-        </span>
+          pleine={slot <= count}
+          className={cn(
+            size === "lg" ? "h-8 w-8" : "h-4 w-4",
+            slot <= count ? "text-tone-sand" : "text-border",
+          )}
+        />
       ))}
     </span>
   );

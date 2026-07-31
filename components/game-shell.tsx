@@ -15,7 +15,7 @@ export function GameShell({
           className="flex items-center gap-3 text-3xl font-semibold tracking-tight"
           style={{ color: game.color }}
         >
-          <span aria-hidden>{game.emoji}</span>
+          <game.icone className="h-7 w-7 shrink-0" />
           <span className="">{game.name}</span>
         </h1>
         <p className="text-sm text-muted">{game.description}</p>

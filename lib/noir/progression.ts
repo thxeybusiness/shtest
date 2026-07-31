@@ -2,6 +2,7 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 import { TOTAL_NIVEAUX } from "./niveaux";
+import { niveauxDuPalier, palierDuNiveau } from "./paliers";
 
 const CLE = "noir:resolus";
 
@@ -38,9 +39,22 @@ function analyser(brut: string | null): number[] {
   }
 }
 
-/** Le niveau 1 est ouvert ; les suivants demandent que le précédent soit résolu. */
+/** Un palier s'ouvre quand tous les niveaux du précédent sont résolus. */
+export function palierOuvert(resolus: number[], numeroPalier: number): boolean {
+  if (numeroPalier <= 1) return true;
+  return niveauxDuPalier(numeroPalier - 1).every((n) => resolus.includes(n));
+}
+
+/**
+ * Un niveau s'ouvre si son palier est ouvert et que le niveau précédent est
+ * résolu — le premier du palier n'ayant que la condition de palier.
+ */
 export function estOuvert(resolus: number[], numero: number): boolean {
-  return numero === 1 || resolus.includes(numero - 1);
+  const palier = palierDuNiveau(numero);
+  if (!palierOuvert(resolus, palier.numero)) return false;
+
+  const premierDuPalier = niveauxDuPalier(palier.numero)[0];
+  return numero === premierDuPalier || resolus.includes(numero - 1);
 }
 
 /** Premier niveau non résolu, ou le dernier si tout est fait. */

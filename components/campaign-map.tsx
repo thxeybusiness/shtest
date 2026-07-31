@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { Cadenas, Etoile } from "@/components/icones";
 import { Button } from "@/components/ui";
 import { Stars } from "@/components/stars";
 import {
@@ -54,8 +55,9 @@ export function CampaignMap() {
             </Button>
           </Link>
           <div className="flex flex-col gap-1">
-            <span className="text-tone-sand font-mono text-sm">
-              ★ {stars} / {TOTAL_STARS}
+            <span className="text-tone-sand flex items-center gap-1.5 font-mono text-sm">
+              <Etoile pleine className="h-3.5 w-3.5" />
+              {stars} / {TOTAL_STARS}
             </span>
             <div className="h-1 w-40 overflow-hidden rounded-full bg-surface-2">
               <div
@@ -114,14 +116,16 @@ export function CampaignMap() {
                       {unlocked ? (
                         <Stars count={earned} />
                       ) : (
-                        <span aria-label="Niveau verrouillé" role="img">
-                          🔒
-                        </span>
+                        <Cadenas
+                          className="h-4 w-4"
+                          role="img"
+                          aria-label="Niveau verrouillé"
+                        />
                       )}
                     </div>
                     <span className="font-medium">{level.title}</span>
                     <span className="flex items-center gap-1.5 text-xs text-muted">
-                      <span aria-hidden>{meta.emoji}</span>
+                      <meta.icone className="h-4 w-4 shrink-0" />
                       {meta.name}
                     </span>
                     <span className="text-xs text-muted">

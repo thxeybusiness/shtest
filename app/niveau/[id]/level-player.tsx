@@ -8,6 +8,7 @@ import { LightsGame } from "@/app/lumieres/lights-game";
 import { MastermindGame } from "@/app/mastermind/mastermind-game";
 import { SudokuGame } from "@/app/sudoku/sudoku-game";
 import { TaquinGame } from "@/app/taquin/taquin-game";
+import { Etoile } from "@/components/icones";
 import { BudgetMeter } from "@/components/budget-meter";
 import { DangerVignette } from "@/components/danger";
 import { Stars } from "@/components/stars";
@@ -159,7 +160,7 @@ export function LevelPlayer({ level }: { level: Level }) {
           </h1>
         </div>
         <p className="flex items-center gap-2 text-sm text-muted">
-          <span aria-hidden>{meta.emoji}</span>
+          <meta.icone className="h-4 w-4 shrink-0" />
           {meta.name} — {meta.description}
         </p>
       </header>
@@ -181,8 +182,14 @@ export function LevelPlayer({ level }: { level: Level }) {
             <Stars count={earned} />
             <div className="flex gap-3 font-mono text-xs text-muted">
               {starThresholds(level.objective).map((threshold) => (
-                <span key={threshold.stars}>
-                  {"★".repeat(threshold.stars)} {threshold.label}
+                <span
+                  key={threshold.stars}
+                  className="flex items-center gap-1"
+                >
+                  {Array.from({ length: threshold.stars }, (_, i) => (
+                    <Etoile key={i} pleine className="h-3 w-3" />
+                  ))}
+                  {threshold.label}
                 </span>
               ))}
             </div>

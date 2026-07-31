@@ -2,7 +2,9 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { Ampoule } from "@/components/icones";
 import { FournisseurCouleurs } from "@/components/noir/couleurs";
+import { cn } from "@/lib/cn";
 import { TOTAL_NIVEAUX, type Niveau } from "@/lib/noir/niveaux";
 import { useProgressionNoir } from "@/lib/noir/progression";
 
@@ -16,6 +18,7 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
   const [indiceLu, setIndiceLu] = useState(false);
 
   const Composant = niveau.composant;
+  const palier = niveau.palier;
   const suivant = niveau.numero < TOTAL_NIVEAUX ? niveau.numero + 1 : null;
   const dejaResolu = resolus.includes(niveau.numero);
 
@@ -36,8 +39,17 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
   const peutAvancer = resolu || dejaResolu;
 
   return (
-    <div className="mx-auto flex w-full max-w-md flex-col gap-8 px-5 py-10">
-      <div className="flex items-center justify-between">
+    <div className="relative mx-auto flex w-full max-w-md flex-col gap-8 px-5 py-10">
+      {/* Le fond de la page prend une trace de la couleur du palier. */}
+      <div
+        aria-hidden
+        className="pointer-events-none fixed inset-x-0 top-0 -z-10 h-72 opacity-10"
+        style={{
+          background: `radial-gradient(60% 100% at 50% 0%, ${palier.couleurs.cible}, transparent)`,
+        }}
+      />
+
+      <div className="apparait flex items-center justify-between">
         <Link
           href="/"
           aria-label="Retour aux niveaux"
@@ -53,22 +65,30 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
           onClick={() => setIndiceLu(true)}
           disabled={!indiceOffert || indiceLu || resolu}
           aria-label="Indice"
-          className="cursor-pointer text-2xl leading-none transition disabled:cursor-default disabled:opacity-0"
+          className={cn(
+            "cursor-pointer transition disabled:cursor-default disabled:opacity-0",
+            indiceOffert && !indiceLu && !resolu && "respire",
+          )}
         >
-          💡
+          <Ampoule className="h-6 w-6" />
         </button>
       </div>
 
       {/* L'aire de jeu : aucune consigne, c'est tout l'exercice. */}
-      <div className="flex aspect-square w-full items-center justify-center">
-        <FournisseurCouleurs couleurs={niveau.couleurs}>
+      <div
+        className={cn(
+          "apparait flex aspect-square w-full items-center justify-center",
+          resolu && "onde",
+        )}
+      >
+        <FournisseurCouleurs couleurs={palier.couleurs}>
           <Composant onResolu={onResolu} />
         </FournisseurCouleurs>
       </div>
 
       <div className="flex min-h-16 flex-col items-center gap-3 text-center">
         {indiceLu && !resolu && (
-          <p className="text-sm text-muted italic">{niveau.indice}</p>
+          <p className="apparait text-sm text-muted italic">{niveau.indice}</p>
         )}
 
         {peutAvancer &&
@@ -76,12 +96,15 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
             <Link
               href={`/noir/${suivant}`}
               aria-label="Niveau suivant"
-              className="text-lg transition hover:opacity-70"
+              className="apparait text-lg transition hover:opacity-70"
             >
               suivant
             </Link>
           ) : (
-            <Link href="/" className="text-lg transition hover:opacity-70">
+            <Link
+              href="/"
+              className="apparait text-lg transition hover:opacity-70"
+            >
               Tous les niveaux sont résolus.
             </Link>
           ))}

@@ -1,12 +1,22 @@
+import type { ComponentType, SVGProps } from "react";
+import {
+  IconeCascade,
+  IconeDemineur,
+  IconeLumieres,
+  IconeMastermind,
+  IconeSudoku,
+  IconeTaquin,
+} from "@/components/icones";
 import type { GameSlug } from "./campaign";
 
-/** Présentation d'une mécanique : nom, emoji, teinte, page de partie libre. */
+/** Présentation d'une mécanique : nom, illustration, teinte, partie libre. */
 export type GameMeta = {
   slug: GameSlug;
   name: string;
   tagline: string;
   description: string;
-  emoji: string;
+  /** Illustration au trait, calée sur la couleur du texte. */
+  icone: ComponentType<SVGProps<SVGSVGElement>>;
   /** Teinte d'accent, référencée depuis la feuille de style. */
   color: string;
 };
@@ -18,7 +28,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Logique en temps réel",
     description:
       "Les blocs descendent sans arrêt : cliquez ceux qui vérifient la règle avant qu'ils ne sortent.",
-    emoji: "⚡",
+    icone: IconeCascade,
     color: "var(--tone-clay)",
   },
   sudoku: {
@@ -27,7 +37,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Déduction pure",
     description:
       "Remplissez la grille 9×9 : un seul chiffre par ligne, par colonne et par région.",
-    emoji: "🔢",
+    icone: IconeSudoku,
     color: "var(--tone-rose)",
   },
   demineur: {
@@ -36,7 +46,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Probabilités et logique",
     description:
       "Découvrez toutes les cases sûres en vous fiant au nombre de mines voisines.",
-    emoji: "💣",
+    icone: IconeDemineur,
     color: "var(--tone-brick)",
   },
   mastermind: {
@@ -45,7 +55,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Déduction par élimination",
     description:
       "Trouvez la combinaison secrète, guidé par les indices de chaque tentative.",
-    emoji: "🎯",
+    icone: IconeMastermind,
     color: "var(--tone-plum)",
   },
   taquin: {
@@ -54,7 +64,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Planification de coups",
     description:
       "Faites glisser les tuiles pour les remettre dans l'ordre, en un minimum de mouvements.",
-    emoji: "🧩",
+    icone: IconeTaquin,
     color: "var(--tone-teal)",
   },
   lumieres: {
@@ -63,7 +73,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     tagline: "Algèbre cachée",
     description:
       "Chaque clic bascule une case et ses voisines. Éteignez toute la grille.",
-    emoji: "💡",
+    icone: IconeLumieres,
     color: "var(--tone-sand)",
   },
 };

@@ -36,9 +36,7 @@ export default function FreePlayPage() {
               style={{ color: game.color }}
               className="flex h-full flex-col gap-2 rounded-2xl border border-border bg-surface/60 p-6 transition hover:border-current hover:bg-surface"
             >
-              <span aria-hidden className="text-3xl">
-                {game.emoji}
-              </span>
+<game.icone className="h-8 w-8" />
               <span className="text-lg font-medium text-text">{game.name}</span>
               <span className="text-xs font-semibold tracking-widest uppercase">
                 {game.tagline}
