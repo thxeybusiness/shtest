@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Banner, Button, SegmentedControl, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
 import { useBestScore, useTimer } from "@/lib/hooks";
@@ -17,9 +18,17 @@ import {
   solvedTiles,
 } from "@/lib/taquin";
 
-export function TaquinGame() {
-  const [size, setSize] = useState<TaquinSize>(3);
-  const [tiles, setTiles] = useState<number[]>(() => solvedTiles(3));
+export function TaquinGame({
+  fixedSize,
+  onFinish,
+}: {
+  /** Taille imposée par un niveau de campagne. */
+  fixedSize?: TaquinSize;
+  onFinish?: LevelReport;
+} = {}) {
+  const [chosenSize, setSize] = useState<TaquinSize>(fixedSize ?? 3);
+  const size = fixedSize ?? chosenSize;
+  const [tiles, setTiles] = useState<number[]>(() => solvedTiles(size));
   const [moves, setMoves] = useState(0);
   const [started, setStarted] = useState(false);
 
@@ -47,7 +56,9 @@ export function TaquinGame() {
   }, [newGame]);
 
   useEffect(() => {
-    if (solved) submit(moves);
+    if (!solved) return;
+    submit(moves);
+    onFinish?.(moves, true);
     // On n'enregistre qu'au moment où le taquin devient résolu.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solved]);
@@ -96,13 +107,15 @@ export function TaquinGame() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          label="Taille"
-          options={TAQUIN_SIZE_OPTIONS}
-          value={String(size) as TaquinSizeOption}
-          onChange={(value) => setSize(Number(value) as TaquinSize)}
-          format={(value) => `${value}×${value}`}
-        />
+        {fixedSize === undefined && (
+          <SegmentedControl
+            label="Taille"
+            options={TAQUIN_SIZE_OPTIONS}
+            value={String(size) as TaquinSizeOption}
+            onChange={(value) => setSize(Number(value) as TaquinSize)}
+            format={(value) => `${value}×${value}`}
+          />
+        )}
         <Button variant="primary" onClick={newGame}>
           Mélanger
         </Button>

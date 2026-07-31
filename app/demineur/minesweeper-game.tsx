@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Banner, Button, SegmentedControl, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
 import { useBestScore, useTimer } from "@/lib/hooks";
@@ -31,8 +32,16 @@ const ADJACENT_COLORS = [
   "text-white",
 ];
 
-export function MinesweeperGame() {
-  const [level, setLevel] = useState<MinesweeperLevel>("facile");
+export function MinesweeperGame({
+  fixedLevel,
+  onFinish,
+}: {
+  /** Niveau imposé par un niveau de campagne. */
+  fixedLevel?: MinesweeperLevel;
+  onFinish?: LevelReport;
+} = {}) {
+  const [chosenLevel, setLevel] = useState<MinesweeperLevel>("facile");
+  const level = fixedLevel ?? chosenLevel;
   const { rows, cols, mines } = MINESWEEPER_CONFIG[level];
 
   const [board, setBoard] = useState<Cell[]>(() => createBoard(rows, cols));
@@ -56,8 +65,13 @@ export function MinesweeperGame() {
   }, [newGame]);
 
   useEffect(() => {
-    if (status === "gagné") submit(elapsed);
-    // Seule la transition vers « gagné » nous intéresse.
+    if (status === "gagné") {
+      submit(elapsed);
+      onFinish?.(elapsed, true);
+    } else if (status === "perdu") {
+      onFinish?.(elapsed, false);
+    }
+    // Seules les transitions vers une fin de partie nous intéressent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
 
@@ -102,12 +116,14 @@ export function MinesweeperGame() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          label="Niveau"
-          options={MINESWEEPER_LEVELS}
-          value={level}
-          onChange={setLevel}
-        />
+        {fixedLevel === undefined && (
+          <SegmentedControl
+            label="Niveau"
+            options={MINESWEEPER_LEVELS}
+            value={level}
+            onChange={setLevel}
+          />
+        )}
         <Button variant="primary" onClick={newGame}>
           Nouvelle partie
         </Button>

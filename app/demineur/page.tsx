@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GameShell } from "@/components/game-shell";
-import { requireGame } from "@/lib/games";
+import { gameMeta } from "@/lib/game-meta";
 import { MinesweeperGame } from "./minesweeper-game";
 
-const game = requireGame("demineur");
+const game = gameMeta.demineur;
 
 export const metadata: Metadata = {
   title: game.name,

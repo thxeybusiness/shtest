@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Banner, Button, SegmentedControl, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
 import { useBestScore, useTimer } from "@/lib/hooks";
@@ -17,8 +18,17 @@ type Puzzle = {
   solution: number[];
 };
 
-export function SudokuGame() {
-  const [difficulty, setDifficulty] = useState<SudokuDifficulty>("moyen");
+export function SudokuGame({
+  fixedDifficulty,
+  onFinish,
+}: {
+  /** Difficulté imposée par un niveau de campagne. */
+  fixedDifficulty?: SudokuDifficulty;
+  onFinish?: LevelReport;
+} = {}) {
+  const [chosenDifficulty, setDifficulty] =
+    useState<SudokuDifficulty>("moyen");
+  const difficulty = fixedDifficulty ?? chosenDifficulty;
   const [puzzle, setPuzzle] = useState<Puzzle | null>(null);
   const [values, setValues] = useState<number[]>([]);
   const [notes, setNotes] = useState<Set<number>[]>([]);
@@ -60,7 +70,9 @@ export function SudokuGame() {
   }, [difficulty, seed, resetTimer]);
 
   useEffect(() => {
-    if (solved) submit(elapsed);
+    if (!solved) return;
+    submit(elapsed);
+    onFinish?.(elapsed, true);
     // On ne veut enregistrer qu'à la transition vers « résolu ».
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solved]);
@@ -152,12 +164,14 @@ export function SudokuGame() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          label="Difficulté"
-          options={SUDOKU_DIFFICULTIES}
-          value={difficulty}
-          onChange={setDifficulty}
-        />
+        {fixedDifficulty === undefined && (
+          <SegmentedControl
+            label="Difficulté"
+            options={SUDOKU_DIFFICULTIES}
+            value={difficulty}
+            onChange={setDifficulty}
+          />
+        )}
         <Button variant="primary" onClick={() => setSeed((n) => n + 1)}>
           Nouvelle grille
         </Button>

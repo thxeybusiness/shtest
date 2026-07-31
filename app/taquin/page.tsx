@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GameShell } from "@/components/game-shell";
-import { requireGame } from "@/lib/games";
+import { gameMeta } from "@/lib/game-meta";
 import { TaquinGame } from "./taquin-game";
 
-const game = requireGame("taquin");
+const game = gameMeta.taquin;
 
 export const metadata: Metadata = {
   title: game.name,

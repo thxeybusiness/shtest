@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { Banner, Button, SegmentedControl, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { formatDuration } from "@/lib/format";
 import { useBestScore, useTimer } from "@/lib/hooks";
@@ -14,8 +15,16 @@ import {
   toggle,
 } from "@/lib/lights";
 
-export function LightsGame() {
-  const [size, setSize] = useState<LightsSize>(5);
+export function LightsGame({
+  fixedSize,
+  onFinish,
+}: {
+  /** Taille imposée par un niveau de campagne. */
+  fixedSize?: LightsSize;
+  onFinish?: LevelReport;
+} = {}) {
+  const [chosenSize, setSize] = useState<LightsSize>(fixedSize ?? 5);
+  const size = fixedSize ?? chosenSize;
   const [grid, setGrid] = useState<boolean[]>([]);
   const [moves, setMoves] = useState(0);
 
@@ -41,7 +50,9 @@ export function LightsGame() {
   }, [newGame]);
 
   useEffect(() => {
-    if (solved) submit(moves);
+    if (!solved) return;
+    submit(moves);
+    onFinish?.(moves, true);
     // Seule la transition vers la grille éteinte compte.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solved]);
@@ -57,13 +68,15 @@ export function LightsGame() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          label="Taille"
-          options={LIGHTS_SIZE_OPTIONS}
-          value={String(size) as LightsSizeOption}
-          onChange={(value) => setSize(Number(value) as LightsSize)}
-          format={(value) => `${value}×${value}`}
-        />
+        {fixedSize === undefined && (
+          <SegmentedControl
+            label="Taille"
+            options={LIGHTS_SIZE_OPTIONS}
+            value={String(size) as LightsSizeOption}
+            onChange={(value) => setSize(Number(value) as LightsSize)}
+            format={(value) => `${value}×${value}`}
+          />
+        )}
         <Button variant="primary" onClick={newGame}>
           Nouvelle grille
         </Button>

@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { Banner, Button, SegmentedControl, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { useBestScore } from "@/lib/hooks";
 import {
@@ -16,8 +17,16 @@ import {
 
 type Attempt = { guess: number[]; score: Score };
 
-export function MastermindGame() {
-  const [level, setLevel] = useState<MastermindLevel>("facile");
+export function MastermindGame({
+  fixedLevel,
+  onFinish,
+}: {
+  /** Niveau imposé par un niveau de campagne. */
+  fixedLevel?: MastermindLevel;
+  onFinish?: LevelReport;
+} = {}) {
+  const [chosenLevel, setLevel] = useState<MastermindLevel>("facile");
+  const level = fixedLevel ?? chosenLevel;
   const { length, colors, tries } = MASTERMIND_CONFIG[level];
 
   const [secret, setSecret] = useState<number[]>([]);
@@ -73,8 +82,10 @@ export function MastermindGame() {
     if (score.exact === length) {
       setStatus("gagné");
       submit(nextAttempts.length);
+      onFinish?.(nextAttempts.length, true);
     } else if (nextAttempts.length >= tries) {
       setStatus("perdu");
+      onFinish?.(nextAttempts.length, false);
     }
   };
 
@@ -83,12 +94,14 @@ export function MastermindGame() {
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-wrap items-center gap-3">
-        <SegmentedControl
-          label="Niveau"
-          options={MASTERMIND_LEVELS}
-          value={level}
-          onChange={setLevel}
-        />
+        {fixedLevel === undefined && (
+          <SegmentedControl
+            label="Niveau"
+            options={MASTERMIND_LEVELS}
+            value={level}
+            onChange={setLevel}
+          />
+        )}
         <Button variant="primary" onClick={newGame}>
           Nouvelle partie
         </Button>

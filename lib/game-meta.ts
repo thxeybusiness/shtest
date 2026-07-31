@@ -1,16 +1,17 @@
-export type Game = {
-  slug: string;
+import type { GameSlug } from "./campaign";
+
+/** Présentation d'une mécanique : nom, emoji, couleur fluo, page de partie libre. */
+export type GameMeta = {
+  slug: GameSlug;
   name: string;
   tagline: string;
   description: string;
-  /** Emoji d'illustration, suffisant tant qu'on n'a pas d'icônes dédiées. */
   emoji: string;
-  /** Couleur fluo d'accent, référencée depuis la feuille de style. */
   neon: string;
 };
 
-export const games: Game[] = [
-  {
+export const gameMeta: Record<GameSlug, GameMeta> = {
+  cascade: {
     slug: "cascade",
     name: "Cascade",
     tagline: "Logique en temps réel",
@@ -19,7 +20,7 @@ export const games: Game[] = [
     emoji: "⚡",
     neon: "var(--neon-cyan)",
   },
-  {
+  sudoku: {
     slug: "sudoku",
     name: "Sudoku",
     tagline: "Déduction pure",
@@ -28,7 +29,7 @@ export const games: Game[] = [
     emoji: "🔢",
     neon: "var(--neon-magenta)",
   },
-  {
+  demineur: {
     slug: "demineur",
     name: "Démineur",
     tagline: "Probabilités et logique",
@@ -37,16 +38,16 @@ export const games: Game[] = [
     emoji: "💣",
     neon: "var(--neon-rose)",
   },
-  {
+  mastermind: {
     slug: "mastermind",
     name: "Mastermind",
     tagline: "Déduction par élimination",
     description:
-      "Trouvez la combinaison secrète en dix essais, guidé par les indices de chaque tentative.",
+      "Trouvez la combinaison secrète, guidé par les indices de chaque tentative.",
     emoji: "🎯",
     neon: "var(--neon-violet)",
   },
-  {
+  taquin: {
     slug: "taquin",
     name: "Taquin",
     tagline: "Planification de coups",
@@ -55,7 +56,7 @@ export const games: Game[] = [
     emoji: "🧩",
     neon: "var(--neon-green)",
   },
-  {
+  lumieres: {
     slug: "lumieres",
     name: "Éteins les lumières",
     tagline: "Algèbre cachée",
@@ -64,15 +65,6 @@ export const games: Game[] = [
     emoji: "💡",
     neon: "var(--neon-yellow)",
   },
-];
+};
 
-export function getGame(slug: string): Game | undefined {
-  return games.find((game) => game.slug === slug);
-}
-
-/** Variante pour les pages, où l'absence du jeu est un bug de build. */
-export function requireGame(slug: string): Game {
-  const game = getGame(slug);
-  if (!game) throw new Error(`Jeu inconnu : ${slug}`);
-  return game;
-}
+export const allGames: GameMeta[] = Object.values(gameMeta);

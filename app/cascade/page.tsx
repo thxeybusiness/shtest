@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GameShell } from "@/components/game-shell";
-import { requireGame } from "@/lib/games";
+import { gameMeta } from "@/lib/game-meta";
 import { CascadeGame } from "./cascade-game";
 
-const game = requireGame("cascade");
+const game = gameMeta.cascade;
 
 export const metadata: Metadata = {
   title: game.name,

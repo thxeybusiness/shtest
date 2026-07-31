@@ -2,6 +2,7 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Banner, Button, Stat } from "@/components/ui";
+import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
 import { useBestScore } from "@/lib/hooks";
 import {
@@ -22,10 +23,19 @@ type Status = "prêt" | "en cours" | "perdu";
 /** Une image de plus de 100 ms (onglet en veille) ne doit pas téléporter les blocs. */
 const MAX_FRAME = 0.1;
 
-export function CascadeGame() {
+export function CascadeGame({
+  speedFactor = 1,
+  onFinish,
+}: {
+  /** Vitesse imposée par un niveau de campagne. */
+  speedFactor?: number;
+  onFinish?: LevelReport;
+} = {}) {
   const [status, setStatus] = useState<Status>("prêt");
   const [round, setRound] = useState(0);
-  const [state, setState] = useState<CascadeState>(createCascadeState);
+  const [state, setState] = useState<CascadeState>(() =>
+    createCascadeState(speedFactor),
+  );
   const { best, submit } = useBestScore("cascade:score", false);
 
   // File des blocs cliqués depuis la dernière image. La boucle est seule
@@ -35,15 +45,15 @@ export function CascadeGame() {
 
   const start = useCallback(() => {
     clicks.current = [];
-    setState(createCascadeState());
+    setState(createCascadeState(speedFactor));
     setRound((current) => current + 1);
     setStatus("en cours");
-  }, []);
+  }, [speedFactor]);
 
   useEffect(() => {
     if (status !== "en cours") return;
 
-    let model = createCascadeState();
+    let model = createCascadeState(speedFactor);
     let frame = 0;
     let previous = performance.now();
 
@@ -60,6 +70,9 @@ export function CascadeGame() {
       if (isOver(model)) {
         setStatus("perdu");
         submit(model.score);
+        // Cascade se termine toujours par une défaite : c'est le score seul
+        // qui décide de la réussite du niveau.
+        onFinish?.(model.score, true);
         return;
       }
 
@@ -68,18 +81,25 @@ export function CascadeGame() {
 
     frame = requestAnimationFrame(step);
     return () => cancelAnimationFrame(frame);
-  }, [round, status, submit]);
+  }, [onFinish, round, speedFactor, status, submit]);
 
   const rule = currentRule(state);
   const playing = status === "en cours";
+  // Dans un niveau, c'est le bilan du niveau qui annonce la fin de partie :
+  // on n'affiche pas en plus l'écran « Perdu » propre au jeu.
+  const showOverlay = !playing && !(onFinish && status === "perdu");
 
   return (
     <div className="flex flex-col gap-5">
-      <div className="flex flex-wrap items-center gap-3">
-        <Button variant="primary" onClick={start}>
-          {status === "prêt" ? "Démarrer" : "Rejouer"}
-        </Button>
-      </div>
+      {/* En campagne, « Démarrer » et « Rejouer » vivent dans les écrans du
+          niveau : ce bandeau ferait doublon. */}
+      {!onFinish && (
+        <div className="flex flex-wrap items-center gap-3">
+          <Button variant="primary" onClick={start}>
+            {status === "prêt" ? "Démarrer" : "Rejouer"}
+          </Button>
+        </div>
+      )}
 
       <div className="flex flex-wrap gap-2">
         <Stat label="Score" value={state.score} />
@@ -166,7 +186,7 @@ export function CascadeGame() {
             </button>
           ))}
 
-          {!playing && (
+          {showOverlay && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-bg/85 px-6 text-center">
               <p className="text-neon-magenta glow-text text-2xl font-semibold">
                 {status === "prêt" ? "Cascade" : "Perdu"}

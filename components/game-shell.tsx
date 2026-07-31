@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
-import type { Game } from "@/lib/games";
+import type { GameMeta } from "@/lib/game-meta";
 
 export function GameShell({
   game,
   children,
 }: {
-  game: Game;
+  game: GameMeta;
   children: ReactNode;
 }) {
   return (

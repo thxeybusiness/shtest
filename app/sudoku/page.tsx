@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { GameShell } from "@/components/game-shell";
-import { requireGame } from "@/lib/games";
+import { gameMeta } from "@/lib/game-meta";
 import { SudokuGame } from "./sudoku-game";
 
-const game = requireGame("sudoku");
+const game = gameMeta.sudoku;
 
 export const metadata: Metadata = {
   title: game.name,

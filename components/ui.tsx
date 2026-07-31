@@ -14,7 +14,8 @@ export function Button({
     primary:
       "bg-accent text-accent-fg shadow-[0_0_20px_-6px] shadow-accent hover:brightness-110",
     secondary: "bg-surface border border-border hover:border-accent/60",
-    ghost: "hover:bg-surface-2",
+    ghost:
+      "border border-transparent text-muted hover:border-border hover:bg-surface-2 hover:text-text",
   };
 
   return (

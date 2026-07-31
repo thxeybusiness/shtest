@@ -112,13 +112,15 @@ export type CascadeState = {
   ruleIndex: number;
   ruleTimer: number;
   spawnTimer: number;
+  /** Multiplicateur de vitesse : 1 en partie libre, plus haut dans la campagne. */
+  speedFactor: number;
 };
 
 function pick<T>(items: T[]): T {
   return items[Math.floor(Math.random() * items.length)];
 }
 
-export function createCascadeState(): CascadeState {
+export function createCascadeState(speedFactor = 1): CascadeState {
   return {
     blocks: [],
     pops: [],
@@ -131,7 +133,8 @@ export function createCascadeState(): CascadeState {
     ruleIndex: 0,
     ruleTimer: RULE_DURATION,
     spawnTimer: 0.3,
-    };
+    speedFactor,
+  };
 }
 
 export function currentRule(state: CascadeState): CascadeRule {
@@ -139,7 +142,8 @@ export function currentRule(state: CascadeState): CascadeRule {
 }
 
 export function currentSpeed(state: CascadeState): number {
-  return Math.min(SPEED_MAX, SPEED_START + state.elapsed * SPEED_GAIN);
+  const base = SPEED_START + state.elapsed * SPEED_GAIN;
+  return Math.min(SPEED_MAX * state.speedFactor, base * state.speedFactor);
 }
 
 export function ruleProgress(state: CascadeState): number {
