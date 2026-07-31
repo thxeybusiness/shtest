@@ -1,24 +1,24 @@
 import type { ComponentType } from "react";
-import { Toucher } from "@/components/noir/niveaux/n01-toucher";
-import { Voisins } from "@/components/noir/niveaux/n02-voisins";
-import { Ordre } from "@/components/noir/niveaux/n03-ordre";
-import { Compte } from "@/components/noir/niveaux/n04-compte";
-import { Patience } from "@/components/noir/niveaux/n05-patience";
-import { Miroir } from "@/components/noir/niveaux/n06-miroir";
-import { Maintenir } from "@/components/noir/niveaux/n07-maintenir";
-import { Bord } from "@/components/noir/niveaux/n08-bord";
-import { Intrus } from "@/components/noir/niveaux/n09-intrus";
-import { Sequence } from "@/components/noir/niveaux/n10-sequence";
-import { LigneColonne } from "@/components/noir/niveaux/n11-ligne-colonne";
-import { SaufUne } from "@/components/noir/niveaux/n12-sauf-une";
-import { Chemin } from "@/components/noir/niveaux/n13-chemin";
-import { Somme } from "@/components/noir/niveaux/n14-somme";
-import { TroisEtats } from "@/components/noir/niveaux/n15-trois-etats";
-import { Rebours } from "@/components/noir/niveaux/n16-rebours";
-import { SymetrieDouble } from "@/components/noir/niveaux/n17-symetrie";
-import { Glissement } from "@/components/noir/niveaux/n18-glissement";
-import { Alternance } from "@/components/noir/niveaux/n19-alternance";
-import { Silence } from "@/components/noir/niveaux/n20-silence";
+import { Toucher } from "@/components/noir/niveaux/toucher";
+import { Voisins } from "@/components/noir/niveaux/voisins";
+import { Ordre } from "@/components/noir/niveaux/ordre";
+import { Compte } from "@/components/noir/niveaux/compte";
+import { Patience } from "@/components/noir/niveaux/patience";
+import { Miroir } from "@/components/noir/niveaux/miroir";
+import { Maintenir } from "@/components/noir/niveaux/maintenir";
+import { Bord } from "@/components/noir/niveaux/bord";
+import { Intrus } from "@/components/noir/niveaux/intrus";
+import { Sequence } from "@/components/noir/niveaux/sequence";
+import { CouronneNiveau } from "@/components/noir/niveaux/couronne";
+import { SaufUne } from "@/components/noir/niveaux/sauf-une";
+import { Chemin } from "@/components/noir/niveaux/chemin";
+import { Somme } from "@/components/noir/niveaux/somme";
+import { Rebours } from "@/components/noir/niveaux/rebours";
+import { TroisEtats } from "@/components/noir/niveaux/trois-etats";
+import { SymetrieDouble } from "@/components/noir/niveaux/symetrie";
+import { Glissement } from "@/components/noir/niveaux/glissement";
+import { Alternance } from "@/components/noir/niveaux/alternance";
+import { Silence } from "@/components/noir/niveaux/silence";
 import { palierDuNiveau, type Palier } from "./paliers";
 import type { NiveauProps } from "./types";
 
@@ -80,8 +80,8 @@ const DEFINITIONS: Definition[] = [
 
   // ── Palier 2 — blanc ───────────────────────────────────────────────────────
   {
-    composant: LigneColonne,
-    indice: "Ce n'est plus le voisinage qui suit, c'est la croix entière.",
+    composant: CouronneNiveau,
+    indice: "L'anneau n'a ni début ni fin : la première touche la dernière.",
   },
   {
     composant: SaufUne,
@@ -98,12 +98,12 @@ const DEFINITIONS: Definition[] = [
     indice: "Le grand nombre doit tomber juste. Ni plus, ni moins.",
   },
   {
-    composant: TroisEtats,
-    indice: "Trois teintes, un cran à la fois — et les coins suivent.",
+    composant: Rebours,
+    indice: "Regardez le tour, puis refaites-le en remontant depuis la fin.",
   },
   {
-    composant: Rebours,
-    indice: "Le même exercice qu'avant, mais en remontant depuis la fin.",
+    composant: TroisEtats,
+    indice: "Trois teintes, un cran à la fois — et les coins suivent.",
   },
   {
     composant: SymetrieDouble,

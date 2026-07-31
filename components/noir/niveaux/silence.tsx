@@ -1,17 +1,17 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { Grille, Piece } from "@/components/noir/piece";
+import { Piece, Rangee } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
-const CASES = 9;
+const CASES = 5;
 /** Délai minimal entre deux touchers pour qu'ils comptent. */
 const REPOS_MS = 1200;
 
 /**
- * Niveau 20 — chaque toucher ne compte que s'il laisse passer un temps depuis
- * le précédent. S'empresser rallume tout. Écho au niveau où il fallait ne
- * rien faire : ici il faut faire, mais lentement.
+ * Une rangée de cinq. Chaque toucher ne compte que s'il laisse passer un temps
+ * depuis le précédent ; s'empresser rallume tout. Écho au niveau où il fallait
+ * ne rien faire : ici il faut faire, mais lentement.
  */
 export function Silence({ onResolu }: NiveauProps) {
   const [atteintes, setAtteintes] = useState<number[]>([]);
@@ -35,15 +35,17 @@ export function Silence({ onResolu }: NiveauProps) {
   };
 
   return (
-    <Grille colonnes={3}>
+    <Rangee>
       {Array.from({ length: CASES }, (_, index) => (
         <Piece
           key={index}
+          forme="rond"
           atteinte={atteintes.includes(index)}
           aria-label={`Case ${index + 1}`}
           onClick={(event) => toucher(index, event.timeStamp)}
+          className="flex-1"
         />
       ))}
-    </Grille>
+    </Rangee>
   );
 }

@@ -56,7 +56,7 @@ export function Maintenir({ onResolu }: NiveauProps) {
       onPointerUp={() => setAppuye(false)}
       onPointerLeave={() => setAppuye(false)}
       onPointerCancel={() => setAppuye(false)}
-      className="aspect-square w-full cursor-pointer rounded-sm"
+      className="aspect-square w-full cursor-pointer rounded-full"
       style={{
         // Du repos vers la cible, par mélange progressif.
         backgroundColor: melange(couleurs, avance),

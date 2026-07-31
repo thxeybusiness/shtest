@@ -60,7 +60,7 @@ export function Intrus({ onResolu }: NiveauProps) {
           key={index}
           aria-label={`Case ${index + 1}`}
           onClick={() => toucher(index)}
-          className="aspect-square cursor-pointer rounded-sm transition-colors duration-300"
+          className="aspect-square cursor-pointer rounded-full transition-colors duration-300"
           style={{ backgroundColor: fond(index) }}
         />
       ))}

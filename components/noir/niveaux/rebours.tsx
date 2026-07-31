@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useCouleurs } from "@/components/noir/couleurs";
-import { Grille } from "@/components/noir/piece";
+import { Couronne } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
 const CASES = 6;
@@ -20,8 +20,8 @@ function melanger(): number[] {
 }
 
 /**
- * Niveau 16 — même démonstration que la séquence, mais il faut la refaire
- * à l'envers, en partant de la dernière case montrée.
+ * Niveau 15 — même démonstration que la séquence, mais posée en anneau et à
+ * refaire à l'envers, en partant de la dernière case montrée.
  */
 export function Rebours({ onResolu }: NiveauProps) {
   const couleurs = useCouleurs();
@@ -88,8 +88,8 @@ export function Rebours({ onResolu }: NiveauProps) {
   };
 
   return (
-    <Grille colonnes={3}>
-      {Array.from({ length: CASES }, (_, index) => {
+    <Couronne
+      enfants={Array.from({ length: CASES }, (_, index) => {
         const dejaRefaite =
           !demonstration && ordre.slice(ordre.length - position).includes(index);
         const atteinte = montree === index || dejaRefaite;
@@ -99,13 +99,13 @@ export function Rebours({ onResolu }: NiveauProps) {
             aria-label={`Case ${index + 1}`}
             aria-pressed={atteinte}
             onClick={() => toucher(index)}
-            className="aspect-square cursor-pointer rounded-sm transition-colors duration-150"
+            className="aspect-square w-full cursor-pointer rounded-full transition-colors duration-150"
             style={{
               backgroundColor: atteinte ? couleurs.cible : couleurs.repos,
             }}
           />
         );
       })}
-    </Grille>
+    />
   );
 }

@@ -42,6 +42,7 @@ export function SaufUne({ onResolu }: NiveauProps) {
       {cases.map((atteinte, index) => (
         <Piece
           key={index}
+          forme="rond"
           atteinte={atteinte}
           onClick={() => setCases((c) => basculer(c, index))}
         />

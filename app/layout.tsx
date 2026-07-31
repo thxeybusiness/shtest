@@ -1,6 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import { SiteHeader } from "@/components/site-header";
+import { SiteFooter, SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: {
@@ -26,9 +26,7 @@ export default function RootLayout({
       <body className="flex min-h-full flex-col">
         <SiteHeader />
         <main className="flex-1">{children}</main>
-        <footer className="border-t border-border px-5 py-6 text-center text-sm text-muted">
-          Tout se joue hors ligne, dans votre navigateur.
-        </footer>
+        <SiteFooter />
       </body>
     </html>
   );

@@ -42,7 +42,7 @@ function tirage(): number[] {
 }
 
 /**
- * Niveau 15 — les cases ont trois teintes et n'avancent que d'un cran à la
+ * Niveau 16 — les cases ont trois teintes et n'avancent que d'un cran à la
  * fois, en emportant leurs diagonales. Il faut toutes les amener au bout.
  */
 export function TroisEtats({ onResolu }: NiveauProps) {
@@ -66,7 +66,7 @@ export function TroisEtats({ onResolu }: NiveauProps) {
           key={index}
           aria-label={`Case ${index + 1}, état ${etat + 1} sur ${ETATS}`}
           onClick={() => setCases((c) => avancer(c, index))}
-          className="aspect-square cursor-pointer rounded-sm transition-colors duration-200"
+          className="aspect-square cursor-pointer rounded-full transition-colors duration-200"
           style={{ backgroundColor: melange(couleurs, etat / (ETATS - 1)) }}
         />
       ))}
