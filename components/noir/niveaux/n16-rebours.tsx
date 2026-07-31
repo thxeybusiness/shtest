@@ -5,12 +5,11 @@ import { useCouleurs } from "@/components/noir/couleurs";
 import { Grille } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
-const CASES = 4;
-const ECLAT_MS = 460;
-/** Temps mort avant la démonstration, pour laisser le regard se poser. */
+const CASES = 6;
+const ECLAT_MS = 440;
 const ATTENTE_MS = 900;
 
-/** Ordre de passage : une permutation, pour que chaque case soit noircie une fois. */
+/** Ordre de passage : une permutation, pour que chaque case serve une fois. */
 function melanger(): number[] {
   const ordre = Array.from({ length: CASES }, (_, i) => i);
   for (let i = ordre.length - 1; i > 0; i--) {
@@ -21,11 +20,10 @@ function melanger(): number[] {
 }
 
 /**
- * Niveau 10 — les quatre cases clignotent dans un certain ordre, qu'il faut
- * refaire. Chaque case juste touchée reste noire ; une erreur rallume tout et
- * relance la démonstration.
+ * Niveau 16 — même démonstration que la séquence, mais il faut la refaire
+ * à l'envers, en partant de la dernière case montrée.
  */
-export function Sequence({ onResolu }: NiveauProps) {
+export function Rebours({ onResolu }: NiveauProps) {
   const couleurs = useCouleurs();
   const [ordre, setOrdre] = useState<number[]>([]);
   const [montree, setMontree] = useState<number | null>(null);
@@ -38,8 +36,6 @@ export function Sequence({ onResolu }: NiveauProps) {
     setOrdre(melanger());
   }, []);
 
-  // Déroule la démonstration, une case à la fois. Un temps mort la précède :
-  // sans lui, la première case clignote avant que le joueur ait regardé.
   useEffect(() => {
     if (!demonstration || ordre.length === 0) return;
 
@@ -55,7 +51,6 @@ export function Sequence({ onResolu }: NiveauProps) {
         return;
       }
       setMontree(ordre[etape]);
-      // On rallume avant la case suivante, sinon deux voisines se confondent.
       minuteries.push(
         window.setTimeout(() => setMontree(null), ECLAT_MS * 0.6),
       );
@@ -78,10 +73,13 @@ export function Sequence({ onResolu }: NiveauProps) {
     if (ordre.length > 0 && position >= ordre.length) onResolu();
   }, [ordre.length, position, onResolu]);
 
+  // À rebours : la première case attendue est la dernière montrée.
+  const attendue = ordre[ordre.length - 1 - position];
+
   const toucher = (index: number) => {
     if (demonstration || position >= ordre.length) return;
 
-    if (index === ordre[position]) {
+    if (index === attendue) {
       setPosition(position + 1);
     } else {
       setPosition(0);
@@ -90,11 +88,11 @@ export function Sequence({ onResolu }: NiveauProps) {
   };
 
   return (
-    <Grille colonnes={2}>
+    <Grille colonnes={3}>
       {Array.from({ length: CASES }, (_, index) => {
-        const atteinte =
-          montree === index ||
-          (!demonstration && ordre.slice(0, position).includes(index));
+        const dejaRefaite =
+          !demonstration && ordre.slice(ordre.length - position).includes(index);
+        const atteinte = montree === index || dejaRefaite;
         return (
           <button
             key={index}

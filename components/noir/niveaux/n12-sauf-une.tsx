@@ -6,39 +6,25 @@ import type { NiveauProps } from "@/lib/noir/types";
 
 const COTE = 4;
 
-/** Bascule la case visée et ses quatre voisines orthogonales. */
+/** Bascule toutes les cases sauf celle qu'on touche. */
 function basculer(cases: boolean[], index: number): boolean[] {
-  const suivant = [...cases];
-  const ligne = Math.floor(index / COTE);
-  const colonne = index % COTE;
-
-  for (const [l, c] of [
-    [ligne, colonne],
-    [ligne - 1, colonne],
-    [ligne + 1, colonne],
-    [ligne, colonne - 1],
-    [ligne, colonne + 1],
-  ]) {
-    if (l < 0 || l >= COTE || c < 0 || c >= COTE) continue;
-    suivant[l * COTE + c] = !suivant[l * COTE + c];
-  }
-  return suivant;
+  return cases.map((valeur, i) => (i === index ? valeur : !valeur));
 }
 
-/**
- * Niveau 2 — un toucher bascule aussi les voisines. Le tirage part de la
- * grille noire et applique des touchers au hasard : elle est donc toujours
- * ramenable au noir.
- */
+/** Tirage depuis la grille résolue : elle reste donc toujours ramenable. */
 function tirage(): boolean[] {
   let cases = Array<boolean>(COTE * COTE).fill(true);
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     cases = basculer(cases, Math.floor(Math.random() * COTE * COTE));
   }
   return cases.every(Boolean) ? tirage() : cases;
 }
 
-export function Voisins({ onResolu }: NiveauProps) {
+/**
+ * Niveau 12 — la case touchée est la seule à ne pas bouger. Tout l'inverse de
+ * ce que l'on croit faire.
+ */
+export function SaufUne({ onResolu }: NiveauProps) {
   const [cases, setCases] = useState<boolean[]>([]);
 
   // Tirage après l'hydratation : il est aléatoire.

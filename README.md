@@ -1,11 +1,23 @@
 # noir
 
-Un jeu d'énigmes : **rendez l'écran noir**. Dix niveaux, chacun avec sa propre
-logique, et aucune n'est expliquée — deviner la règle *est* le niveau. Tout se
-joue dans le navigateur, sans compte ni backend ; la progression est stockée
-localement.
+Un jeu d'énigmes : **faites disparaître l'écran dans la couleur du niveau**.
+Seize niveaux, chacun avec sa propre logique, et aucune n'est expliquée —
+deviner la règle *est* le niveau. Tout se joue dans le navigateur, sans compte
+ni backend ; la progression est stockée localement.
 
 Inspiré de *black (game)* de Bart Bonte.
+
+## Les couleurs
+
+Chaque niveau a sa cible. Le premier est noir ; le deuxième bascule au blanc,
+pour le contraste maximal ; les suivants s'en éloignent par un dégradé continu
+qui se réchauffe (ivoire, sable, terre cuite, brique) puis replonge vers la
+nuit. Le sommaire affiche chaque niveau résolu dans sa couleur : la série s'y
+lit d'un coup d'œil.
+
+La couleur de repos n'est pas choisie à la main mais calculée : des deux
+neutres disponibles, on retient celui qui contraste le plus avec la cible, au
+sens WCAG. Aucun couple ne descend sous 3,5:1.
 
 ## Les énigmes
 
@@ -17,21 +29,28 @@ du jeu est l'indice, et il ne se propose qu'au bout de 35 secondes, derrière
 une ampoule.
 
 Chaque niveau est un composant autonome dans `components/noir/niveaux/`, qui
-signale sa résolution par `onResolu`. En ajouter un ne demande que ce composant
-et une entrée dans `lib/noir/niveaux.ts`.
+signale sa résolution par `onResolu` et lit sa couleur dans le contexte plutôt
+que de la coder en dur. En ajouter un ne demande que ce composant, une entrée
+dans `lib/noir/niveaux.ts` et une cible dans la table des couleurs.
 
 | # | Logique |
 | --- | --- |
-| 1 | Chaque case se noircit d'un toucher |
+| 1 | Chaque case s'éteint d'un toucher |
 | 2 | Un toucher bascule aussi les quatre voisines |
-| 3 | Les cases ne s'éteignent que dans l'ordre croissant ; une erreur rallume tout |
+| 3 | Les cases ne suivent que l'ordre croissant ; une erreur remet tout à zéro |
 | 4 | Chaque case indique combien de touchers il lui reste |
-| 5 | La grille se noircit seule — le moindre toucher rallume tout |
+| 5 | La grille se remplit seule — le moindre toucher annule tout |
 | 6 | Chaque toucher se répercute sur la case symétrique |
 | 7 | Une seule case, à maintenir sans relâcher |
 | 8 | Les cases sont inertes ; c'est le cadre qui répond |
-| 9 | Une case est d'un gris à peine plus sombre |
+| 9 | Une case est un peu plus proche de la couleur que les autres |
 | 10 | Les cases clignotent dans un ordre, qu'il faut refaire |
+| 11 | Un toucher emporte la ligne et la colonne entières |
+| 12 | La case touchée est la seule à ne pas bouger |
+| 13 | Parcourir les neuf cases d'un seul trait — tous les départs ne se valent pas |
+| 14 | Faire tomber le grand nombre exactement à zéro |
+| 15 | Trois teintes, un cran à la fois, les diagonales suivent |
+| 16 | Comme la séquence, mais à reproduire à l'envers |
 
 ## Le reste du site
 

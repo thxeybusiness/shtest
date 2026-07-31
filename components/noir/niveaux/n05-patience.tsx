@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useCouleurs } from "@/components/noir/couleurs";
 import { Grille } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
@@ -12,6 +13,7 @@ const PAS_MS = 700;
  * moindre toucher rallume tout. La solution est de ne rien faire.
  */
 export function Patience({ onResolu }: NiveauProps) {
+  const couleurs = useCouleurs();
   const [noircies, setNoircies] = useState(0);
   const resolu = useRef(false);
 
@@ -43,9 +45,11 @@ export function Patience({ onResolu }: NiveauProps) {
         {Array.from({ length: CASES }, (_, index) => (
           <div
             key={index}
-            className={`aspect-square rounded-sm transition-colors duration-200 ${
-              index < noircies ? "bg-black" : "bg-clair"
-            }`}
+            className="aspect-square rounded-sm transition-colors duration-200"
+            style={{
+              backgroundColor:
+                index < noircies ? couleurs.cible : couleurs.repos,
+            }}
           />
         ))}
       </Grille>

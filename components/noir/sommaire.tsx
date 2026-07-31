@@ -18,8 +18,8 @@ export function Sommaire() {
       <header className="flex flex-col gap-4">
         <h1 className="text-5xl font-semibold tracking-tight">noir</h1>
         <p className="text-muted">
-          Rendez l&apos;écran noir. Chaque niveau a sa propre logique, et
-          aucune n&apos;est expliquée.
+          Faites disparaître l&apos;écran dans la couleur du niveau. Chaque
+          niveau a sa propre logique, et aucune n&apos;est expliquée.
         </p>
         <Link
           href={`/noir/${reprise}`}
@@ -49,11 +49,22 @@ export function Sommaire() {
               {ouvert ? (
                 <Link
                   href={`/noir/${niveau.numero}`}
-                  className={`flex aspect-square items-center justify-center rounded-sm border transition ${
+                  className="flex aspect-square items-center justify-center rounded-sm border transition hover:border-accent"
+                  style={
                     fait
-                      ? "border-transparent bg-black text-clair"
-                      : "border-border bg-clair text-black hover:border-accent"
-                  }`}
+                      ? {
+                          // Un niveau résolu porte sa propre couleur : le
+                          // sommaire donne à voir le dégradé de la série.
+                          backgroundColor: niveau.couleurs.cible,
+                          color: niveau.couleurs.repos,
+                          borderColor: "transparent",
+                        }
+                      : {
+                          backgroundColor: "var(--surface)",
+                          color: "var(--text)",
+                          borderColor: "var(--border)",
+                        }
+                  }
                 >
                   {contenu}
                 </Link>
@@ -72,7 +83,7 @@ export function Sommaire() {
 
       <footer className="flex flex-col gap-3 border-t border-border pt-6 text-sm text-muted">
         <span>
-          {resolus.length} / {TOTAL_NIVEAUX} niveaux noircis
+          {resolus.length} / {TOTAL_NIVEAUX} niveaux résolus
         </span>
         <div className="flex flex-wrap items-center gap-4">
           <Link href="/mecaniques" className="transition hover:text-text">

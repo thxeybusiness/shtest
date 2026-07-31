@@ -1,25 +1,30 @@
 "use client";
 
 import type { ComponentProps } from "react";
+import { useCouleurs } from "@/components/noir/couleurs";
 import { cn } from "@/lib/cn";
 
 /**
  * Brique de base de tous les niveaux : une case carrée qui n'a que deux
- * états, claire ou noire. Le but de chaque niveau est de tout passer au noir.
+ * états, au repos ou à la couleur du niveau.
  */
 export function Piece({
-  noire,
+  atteinte,
   className,
   ...props
-}: ComponentProps<"button"> & { noire: boolean }) {
+}: ComponentProps<"button"> & { atteinte: boolean }) {
+  const couleurs = useCouleurs();
+
   return (
     <button
-      aria-pressed={noire}
+      aria-pressed={atteinte}
       className={cn(
         "aspect-square cursor-pointer rounded-sm transition-colors duration-200",
-        noire ? "bg-black" : "bg-clair",
         className,
       )}
+      style={{
+        backgroundColor: atteinte ? couleurs.cible : couleurs.repos,
+      }}
       {...props}
     />
   );

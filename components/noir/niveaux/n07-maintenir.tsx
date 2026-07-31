@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { melange, useCouleurs } from "@/components/noir/couleurs";
 import type { NiveauProps } from "@/lib/noir/types";
 
 const DUREE_MS = 2600;
@@ -10,6 +11,7 @@ const DUREE_MS = 2600;
  * s'éclaircit dès qu'on relâche. Il faut tenir jusqu'au bout.
  */
 export function Maintenir({ onResolu }: NiveauProps) {
+  const couleurs = useCouleurs();
   const [appuye, setAppuye] = useState(false);
   const [avance, setAvance] = useState(0);
   const resolu = useRef(false);
@@ -56,8 +58,8 @@ export function Maintenir({ onResolu }: NiveauProps) {
       onPointerCancel={() => setAppuye(false)}
       className="aspect-square w-full cursor-pointer rounded-sm"
       style={{
-        // De la case claire au noir, par mélange progressif.
-        backgroundColor: `color-mix(in srgb, black ${avance * 100}%, var(--clair))`,
+        // Du repos vers la cible, par mélange progressif.
+        backgroundColor: melange(couleurs, avance),
       }}
     />
   );

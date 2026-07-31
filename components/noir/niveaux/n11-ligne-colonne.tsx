@@ -6,39 +6,35 @@ import type { NiveauProps } from "@/lib/noir/types";
 
 const COTE = 4;
 
-/** Bascule la case visée et ses quatre voisines orthogonales. */
+/**
+ * Bascule toute la ligne et toute la colonne. La case visée appartient aux
+ * deux : un ensemble évite de la basculer deux fois, ce qui l'annulerait.
+ */
 function basculer(cases: boolean[], index: number): boolean[] {
   const suivant = [...cases];
   const ligne = Math.floor(index / COTE);
   const colonne = index % COTE;
+  const touchees = new Set<number>();
 
-  for (const [l, c] of [
-    [ligne, colonne],
-    [ligne - 1, colonne],
-    [ligne + 1, colonne],
-    [ligne, colonne - 1],
-    [ligne, colonne + 1],
-  ]) {
-    if (l < 0 || l >= COTE || c < 0 || c >= COTE) continue;
-    suivant[l * COTE + c] = !suivant[l * COTE + c];
+  for (let k = 0; k < COTE; k++) {
+    touchees.add(ligne * COTE + k);
+    touchees.add(k * COTE + colonne);
   }
+  for (const i of touchees) suivant[i] = !suivant[i];
   return suivant;
 }
 
-/**
- * Niveau 2 — un toucher bascule aussi les voisines. Le tirage part de la
- * grille noire et applique des touchers au hasard : elle est donc toujours
- * ramenable au noir.
- */
+/** Tirage depuis la grille résolue : elle reste donc toujours ramenable. */
 function tirage(): boolean[] {
   let cases = Array<boolean>(COTE * COTE).fill(true);
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 5; i++) {
     cases = basculer(cases, Math.floor(Math.random() * COTE * COTE));
   }
   return cases.every(Boolean) ? tirage() : cases;
 }
 
-export function Voisins({ onResolu }: NiveauProps) {
+/** Niveau 11 — un toucher emporte la ligne et la colonne entières. */
+export function LigneColonne({ onResolu }: NiveauProps) {
   const [cases, setCases] = useState<boolean[]>([]);
 
   // Tirage après l'hydratation : il est aléatoire.

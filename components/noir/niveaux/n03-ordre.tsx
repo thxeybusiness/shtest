@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useCouleurs } from "@/components/noir/couleurs";
 import { Grille, Piece } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
@@ -18,6 +19,7 @@ function melanger(): number[] {
  * croissant. Une erreur rallume tout.
  */
 export function Ordre({ onResolu }: NiveauProps) {
+  const couleurs = useCouleurs();
   const [valeurs, setValeurs] = useState<number[]>([]);
   const [attendu, setAttendu] = useState(1);
 
@@ -34,19 +36,18 @@ export function Ordre({ onResolu }: NiveauProps) {
   return (
     <Grille colonnes={3}>
       {valeurs.map((valeur, index) => {
-        const noire = valeur < attendu;
+        const atteinte = valeur < attendu;
         return (
           <Piece
             key={index}
-            noire={noire}
+            atteinte={atteinte}
             aria-label={`Case ${valeur}`}
             onClick={() => setAttendu(valeur === attendu ? attendu + 1 : 1)}
             className="flex items-center justify-center"
           >
             <span
-              className={
-                noire ? "text-lg font-bold text-black" : "text-lg font-bold text-black/70"
-              }
+              className="text-lg font-bold"
+              style={{ color: atteinte ? couleurs.repos : couleurs.cible }}
             >
               {valeur}
             </span>

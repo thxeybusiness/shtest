@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { useCallback, useEffect, useState } from "react";
+import { FournisseurCouleurs } from "@/components/noir/couleurs";
 import { TOTAL_NIVEAUX, type Niveau } from "@/lib/noir/niveaux";
 import { useProgressionNoir } from "@/lib/noir/progression";
 
@@ -60,7 +61,9 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
 
       {/* L'aire de jeu : aucune consigne, c'est tout l'exercice. */}
       <div className="flex aspect-square w-full items-center justify-center">
-        <Composant onResolu={onResolu} />
+        <FournisseurCouleurs couleurs={niveau.couleurs}>
+          <Composant onResolu={onResolu} />
+        </FournisseurCouleurs>
       </div>
 
       <div className="flex min-h-16 flex-col items-center gap-3 text-center">
@@ -79,7 +82,7 @@ export function Joueur({ niveau }: { niveau: Niveau }) {
             </Link>
           ) : (
             <Link href="/" className="text-lg transition hover:opacity-70">
-              Tous les niveaux sont noirs.
+              Tous les niveaux sont résolus.
             </Link>
           ))}
       </div>

@@ -14,10 +14,10 @@ export function Toucher({ onResolu }: NiveauProps) {
 
   return (
     <Grille colonnes={3}>
-      {noires.map((noire, index) => (
+      {noires.map((atteinte, index) => (
         <Piece
           key={index}
-          noire={noire}
+          atteinte={atteinte}
           onClick={() =>
             setNoires((cases) => cases.map((c, i) => (i === index ? true : c)))
           }

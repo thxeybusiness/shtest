@@ -40,7 +40,7 @@ export function Bord({ onResolu }: NiveauProps) {
         {Array.from({ length: CASES }, (_, index) => (
           <Piece
             key={index}
-            noire={index < noircies}
+            atteinte={index < noircies}
             onClick={(event) => event.stopPropagation()}
           />
         ))}

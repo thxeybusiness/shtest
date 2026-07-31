@@ -1,11 +1,13 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useCouleurs } from "@/components/noir/couleurs";
 import { Grille, Piece } from "@/components/noir/piece";
 import type { NiveauProps } from "@/lib/noir/types";
 
 /** Niveau 4 — chaque case indique combien de touchers il lui reste. */
 export function Compte({ onResolu }: NiveauProps) {
+  const couleurs = useCouleurs();
   const [restants, setRestants] = useState<number[]>([]);
 
   // Tirage après l'hydratation : il est aléatoire.
@@ -25,7 +27,7 @@ export function Compte({ onResolu }: NiveauProps) {
       {restants.map((reste, index) => (
         <Piece
           key={index}
-          noire={reste === 0}
+          atteinte={reste === 0}
           aria-label={`Case, ${reste} touchers restants`}
           onClick={() =>
             setRestants((cases) =>
@@ -35,7 +37,12 @@ export function Compte({ onResolu }: NiveauProps) {
           className="flex items-center justify-center"
         >
           {reste > 0 && (
-            <span className="text-lg font-bold text-black/70">{reste}</span>
+            <span
+              className="text-lg font-bold"
+              style={{ color: couleurs.cible }}
+            >
+              {reste}
+            </span>
           )}
         </Piece>
       ))}

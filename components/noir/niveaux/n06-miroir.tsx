@@ -45,10 +45,10 @@ export function Miroir({ onResolu }: NiveauProps) {
 
   return (
     <Grille colonnes={COTE}>
-      {cases.map((noire, index) => (
+      {cases.map((atteinte, index) => (
         <Piece
           key={index}
-          noire={noire}
+          atteinte={atteinte}
           onClick={() => setCases((c) => basculer(c, index))}
         />
       ))}

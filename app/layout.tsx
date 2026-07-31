@@ -8,7 +8,7 @@ export const metadata: Metadata = {
     template: "%s · noir",
   },
   description:
-    "Rendez l'écran noir. Dix énigmes, chacune avec sa propre logique, aucune expliquée.",
+    "Faites disparaître l'écran dans la couleur du niveau. Seize énigmes, chacune avec sa propre logique, aucune expliquée.",
 };
 
 export const viewport: Viewport = {
