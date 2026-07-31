@@ -1,8 +1,40 @@
-# Jeux de logique
+# noir
 
-Une campagne de 30 niveaux bâtie sur six mécaniques de casse-tête, jouable
-directement dans le navigateur, sans compte ni backend. La progression et les
-records sont stockés localement.
+Un jeu d'énigmes : **rendez l'écran noir**. Dix niveaux, chacun avec sa propre
+logique, et aucune n'est expliquée — deviner la règle *est* le niveau. Tout se
+joue dans le navigateur, sans compte ni backend ; la progression est stockée
+localement.
+
+Inspiré de *black (game)* de Bart Bonte.
+
+## Les énigmes
+
+`/` est le sommaire ; `/noir/[n]` est un niveau. Il faut résoudre un niveau
+pour ouvrir le suivant. Le seul texte du jeu est l'indice, et il ne se propose
+qu'au bout de 35 secondes, derrière une ampoule.
+
+Chaque niveau est un composant autonome dans `components/noir/niveaux/`, qui
+signale sa résolution par `onResolu`. En ajouter un ne demande que ce composant
+et une entrée dans `lib/noir/niveaux.ts`.
+
+| # | Logique |
+| --- | --- |
+| 1 | Chaque case se noircit d'un toucher |
+| 2 | Un toucher bascule aussi les quatre voisines |
+| 3 | Les cases ne s'éteignent que dans l'ordre croissant ; une erreur rallume tout |
+| 4 | Chaque case indique combien de touchers il lui reste |
+| 5 | La grille se noircit seule — le moindre toucher rallume tout |
+| 6 | Chaque toucher se répercute sur la case symétrique |
+| 7 | Une seule case, à maintenir sans relâcher |
+| 8 | Les cases sont inertes ; c'est le cadre qui répond |
+| 9 | Une case est d'un gris à peine plus sombre |
+| 10 | Les cases clignotent dans un ordre, qu'il faut refaire |
+
+## Le reste du site
+
+Les casse-têtes mécaniques d'origine restent en place : `/mecaniques` héberge la
+campagne de 30 niveaux bâtie sur six mécaniques classiques (sudoku, démineur,
+mastermind, taquin, lumières, cascade), et `/libre` les mêmes sans objectif.
 
 ## Direction artistique
 

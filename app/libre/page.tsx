@@ -12,7 +12,10 @@ export default function FreePlayPage() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-5 py-14">
       <header className="flex max-w-2xl flex-col gap-3">
-        <Link href="/" className="text-sm text-muted transition hover:text-text">
+        <Link
+          href="/mecaniques"
+          className="text-sm text-muted transition hover:text-text"
+        >
           ← Carte des niveaux
         </Link>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">

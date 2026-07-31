@@ -1,5 +1,5 @@
-import { CampaignMap } from "@/components/campaign-map";
+import { Sommaire } from "@/components/noir/sommaire";
 
 export default function Home() {
-  return <CampaignMap />;
+  return <Sommaire />;
 }

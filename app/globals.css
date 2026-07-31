@@ -27,6 +27,9 @@
   --good: #7cb98e;
   --bad: #cc6b75;
 
+  /* Jeu « noir » : la case claire à éteindre. */
+  --clair: #e8e6e1;
+
   /* Teintes de l'aire de jeu, de la plus froide à la plus chaude. */
   --tone-slate: #8aa0c4;
   --tone-teal: #58b3a5;
@@ -50,6 +53,7 @@
   --color-accent-fg: var(--accent-fg);
   --color-good: var(--good);
   --color-bad: var(--bad);
+  --color-clair: var(--clair);
 
   --color-tone-slate: var(--tone-slate);
   --color-tone-teal: var(--tone-teal);

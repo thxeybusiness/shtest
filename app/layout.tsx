@@ -4,15 +4,15 @@ import { SiteHeader } from "@/components/site-header";
 
 export const metadata: Metadata = {
   title: {
-    default: "Jeux de logique",
-    template: "%s · Jeux de logique",
+    default: "noir",
+    template: "%s · noir",
   },
   description:
-    "Cascade, sudoku, démineur, mastermind, taquin et casse-têtes de logique à jouer directement dans le navigateur.",
+    "Rendez l'écran noir. Dix énigmes, chacune avec sa propre logique, aucune expliquée.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#04060e",
+  themeColor: "#070910",
   colorScheme: "dark",
 };
 
@@ -27,7 +27,7 @@ export default function RootLayout({
         <SiteHeader />
         <main className="flex-1">{children}</main>
         <footer className="border-t border-border px-5 py-6 text-center text-sm text-muted">
-          Jeux de logique — tout se joue hors ligne, dans votre navigateur.
+          Tout se joue hors ligne, dans votre navigateur.
         </footer>
       </body>
     </html>

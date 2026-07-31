@@ -132,7 +132,10 @@ export function LevelPlayer({ level }: { level: Level }) {
       {shown === null && <DangerVignette level={pressure} />}
 
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link href="/" className="text-sm text-muted transition hover:text-text">
+        <Link
+          href="/mecaniques"
+          className="text-sm text-muted transition hover:text-text"
+        >
           ← Carte des niveaux
         </Link>
         <span
@@ -237,7 +240,7 @@ export function LevelPlayer({ level }: { level: Level }) {
                     <Button variant="primary">Niveau suivant →</Button>
                   </Link>
                 )}
-                <Link href="/">
+                <Link href="/mecaniques">
                   <Button variant="ghost">Carte</Button>
                 </Link>
               </div>
