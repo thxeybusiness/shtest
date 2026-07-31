@@ -1,48 +1,38 @@
-const steps = [
-  {
-    title: "Dépôt GitHub",
-    detail: "thxeybusiness/shtest — branche main",
-  },
-  {
-    title: "Projet Vercel",
-    detail: "shtest — équipe Thomas",
-  },
-  {
-    title: "Déploiement",
-    detail: "Chaque push sur main part en production",
-  },
-];
+import Link from "next/link";
+import { games } from "@/lib/games";
 
 export default function Home() {
   return (
-    <main className="mx-auto flex w-full max-w-2xl flex-1 flex-col justify-center gap-10 px-6 py-20">
-      <header className="flex flex-col gap-3">
-        <span className="inline-flex w-fit items-center rounded-full border border-current/15 px-3 py-1 text-xs font-medium tracking-wide uppercase opacity-70">
-          En ligne
-        </span>
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-5 py-14">
+      <header className="flex max-w-2xl flex-col gap-3">
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          shtest
+          Jeux de logique
         </h1>
-        <p className="text-base opacity-70">
-          Le squelette est déployé. Le contenu réel reste à construire.
+        <p className="text-lg text-muted">
+          Cinq casse-têtes classiques, sans compte ni publicité. Vos meilleurs
+          temps restent dans votre navigateur.
         </p>
       </header>
 
-      <ul className="flex flex-col gap-px overflow-hidden rounded-xl border border-current/10 bg-current/5">
-        {steps.map((step) => (
-          <li
-            key={step.title}
-            className="flex flex-col gap-1 bg-[var(--background)] px-5 py-4"
-          >
-            <span className="text-sm font-medium">{step.title}</span>
-            <span className="text-sm opacity-60">{step.detail}</span>
+      <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {games.map((game) => (
+          <li key={game.slug}>
+            <Link
+              href={`/${game.slug}`}
+              className="flex h-full flex-col gap-2 rounded-xl border border-border bg-surface p-5 transition hover:border-accent hover:shadow-sm"
+            >
+              <span aria-hidden className="text-3xl">
+                {game.emoji}
+              </span>
+              <span className="text-lg font-medium">{game.name}</span>
+              <span className="text-xs tracking-wide text-accent uppercase">
+                {game.tagline}
+              </span>
+              <span className="text-sm text-muted">{game.description}</span>
+            </Link>
           </li>
         ))}
       </ul>
-
-      <footer className="text-sm opacity-50">
-        Next.js 16 · React 19 · Tailwind CSS 4
-      </footer>
-    </main>
+    </div>
   );
 }
