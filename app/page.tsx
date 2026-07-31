@@ -3,14 +3,18 @@ import { games } from "@/lib/games";
 
 export default function Home() {
   return (
-    <div className="mx-auto flex w-full max-w-5xl flex-col gap-10 px-5 py-14">
-      <header className="flex max-w-2xl flex-col gap-3">
-        <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Jeux de logique
+    <div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-5 py-16">
+      <header className="flex max-w-2xl flex-col gap-4">
+        <span className="text-neon-cyan glow-text w-fit text-xs font-semibold tracking-[0.3em] uppercase">
+          Six casse-têtes
+        </span>
+        <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
+          Jeux de <span className="text-neon-magenta glow-text">logique</span>
         </h1>
         <p className="text-lg text-muted">
-          Cinq casse-têtes classiques, sans compte ni publicité. Vos meilleurs
-          temps restent dans votre navigateur.
+          Un jeu d&apos;action en flux continu et cinq classiques de déduction.
+          Sans compte, sans publicité : vos records restent dans votre
+          navigateur.
         </p>
       </header>
 
@@ -19,13 +23,14 @@ export default function Home() {
           <li key={game.slug}>
             <Link
               href={`/${game.slug}`}
-              className="flex h-full flex-col gap-2 rounded-xl border border-border bg-surface p-5 transition hover:border-accent hover:shadow-sm"
+              style={{ color: game.neon }}
+              className="flex h-full flex-col gap-2 rounded-2xl border border-border bg-surface/60 p-6 transition hover:border-current hover:bg-surface"
             >
               <span aria-hidden className="text-3xl">
                 {game.emoji}
               </span>
-              <span className="text-lg font-medium">{game.name}</span>
-              <span className="text-xs tracking-wide text-accent uppercase">
+              <span className="text-lg font-medium text-text">{game.name}</span>
+              <span className="glow-text text-xs font-semibold tracking-widest uppercase">
                 {game.tagline}
               </span>
               <span className="text-sm text-muted">{game.description}</span>

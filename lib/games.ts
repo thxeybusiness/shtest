@@ -5,9 +5,20 @@ export type Game = {
   description: string;
   /** Emoji d'illustration, suffisant tant qu'on n'a pas d'icônes dédiées. */
   emoji: string;
+  /** Couleur fluo d'accent, référencée depuis la feuille de style. */
+  neon: string;
 };
 
 export const games: Game[] = [
+  {
+    slug: "cascade",
+    name: "Cascade",
+    tagline: "Logique en temps réel",
+    description:
+      "Les blocs descendent sans arrêt : cliquez ceux qui vérifient la règle avant qu'ils ne sortent.",
+    emoji: "⚡",
+    neon: "var(--neon-cyan)",
+  },
   {
     slug: "sudoku",
     name: "Sudoku",
@@ -15,6 +26,7 @@ export const games: Game[] = [
     description:
       "Remplissez la grille 9×9 : un seul chiffre par ligne, par colonne et par région.",
     emoji: "🔢",
+    neon: "var(--neon-magenta)",
   },
   {
     slug: "demineur",
@@ -23,6 +35,7 @@ export const games: Game[] = [
     description:
       "Découvrez toutes les cases sûres en vous fiant au nombre de mines voisines.",
     emoji: "💣",
+    neon: "var(--neon-rose)",
   },
   {
     slug: "mastermind",
@@ -31,6 +44,7 @@ export const games: Game[] = [
     description:
       "Trouvez la combinaison secrète en dix essais, guidé par les indices de chaque tentative.",
     emoji: "🎯",
+    neon: "var(--neon-violet)",
   },
   {
     slug: "taquin",
@@ -39,6 +53,7 @@ export const games: Game[] = [
     description:
       "Faites glisser les tuiles pour les remettre dans l'ordre, en un minimum de mouvements.",
     emoji: "🧩",
+    neon: "var(--neon-green)",
   },
   {
     slug: "lumieres",
@@ -47,6 +62,7 @@ export const games: Game[] = [
     description:
       "Chaque clic bascule une case et ses voisines. Éteignez toute la grille.",
     emoji: "💡",
+    neon: "var(--neon-yellow)",
   },
 ];
 

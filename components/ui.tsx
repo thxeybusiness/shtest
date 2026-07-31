@@ -11,15 +11,16 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary: "bg-accent text-accent-fg hover:opacity-90",
-    secondary: "bg-surface border border-border hover:bg-surface-2",
+    primary:
+      "bg-accent text-accent-fg shadow-[0_0_20px_-6px] shadow-accent hover:brightness-110",
+    secondary: "bg-surface border border-border hover:border-accent/60",
     ghost: "hover:bg-surface-2",
   };
 
   return (
     <button
       className={cn(
-        "inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-medium transition disabled:cursor-not-allowed disabled:opacity-40",
+        "inline-flex cursor-pointer items-center justify-center gap-2 rounded-lg px-3.5 py-2 text-sm font-semibold transition disabled:cursor-not-allowed disabled:opacity-40",
         variants[variant],
         className,
       )}
@@ -58,7 +59,7 @@ export function SegmentedControl<T extends string>({
           className={cn(
             "cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium capitalize transition",
             option === value
-              ? "bg-accent text-accent-fg"
+              ? "bg-accent text-accent-fg shadow-[0_0_18px_-6px] shadow-accent"
               : "text-muted hover:text-text",
           )}
         >
@@ -71,8 +72,8 @@ export function SegmentedControl<T extends string>({
 
 export function Stat({ label, value }: { label: string; value: ReactNode }) {
   return (
-    <div className="flex min-w-20 flex-col rounded-lg border border-border bg-surface px-3 py-2">
-      <span className="text-[0.7rem] tracking-wide text-muted uppercase">
+    <div className="flex min-w-20 flex-col rounded-lg border border-border bg-surface/60 px-3 py-2">
+      <span className="text-[0.7rem] tracking-widest text-muted uppercase">
         {label}
       </span>
       <span className="font-mono text-lg leading-tight tabular-nums">
@@ -93,10 +94,8 @@ export function Banner({
     <div
       role="status"
       className={cn(
-        "rounded-lg border px-4 py-3 text-sm font-medium",
-        tone === "good"
-          ? "border-good/40 text-good"
-          : "border-bad/40 text-bad",
+        "glow-text rounded-lg border px-4 py-3 text-sm font-semibold",
+        tone === "good" ? "border-good/50 text-good" : "border-bad/50 text-bad",
       )}
     >
       {children}

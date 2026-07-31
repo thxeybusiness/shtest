@@ -127,20 +127,21 @@ export function MastermindGame() {
                 <span
                   key={slot}
                   title={MASTERMIND_COLORS[color].name}
-                  className={cn(
-                    "h-7 w-7 rounded-full",
-                    MASTERMIND_COLORS[color].className,
-                  )}
+                  className="glow h-7 w-7 rounded-full"
+                  style={{
+                    backgroundColor: MASTERMIND_COLORS[color].css,
+                    color: MASTERMIND_COLORS[color].css,
+                  }}
                 />
               ))}
             </div>
             <div className="ml-auto flex items-center gap-3 text-sm">
               <span className="flex items-center gap-1" title="Bien placés">
-                <span className="h-2.5 w-2.5 rounded-full bg-text" />
+                <span className="h-2.5 w-2.5 rounded-full bg-white" />
                 {attempt.score.exact}
               </span>
               <span className="flex items-center gap-1" title="Mal placés">
-                <span className="h-2.5 w-2.5 rounded-full border border-text" />
+                <span className="h-2.5 w-2.5 rounded-full border border-white" />
                 {attempt.score.partial}
               </span>
             </div>
@@ -158,10 +159,20 @@ export function MastermindGame() {
                   onClick={() => clearSlot(slot)}
                   aria-label={`Emplacement ${slot + 1}`}
                   className={cn(
-                    "h-9 w-9 cursor-pointer rounded-full border-2 border-dashed border-border transition",
-                    color !== null &&
-                      `border-solid ${MASTERMIND_COLORS[color].className}`,
+                    "h-9 w-9 cursor-pointer rounded-full border-2 transition",
+                    color === null
+                      ? "border-dashed border-border"
+                      : "glow border-solid",
                   )}
+                  style={
+                    color === null
+                      ? undefined
+                      : {
+                          backgroundColor: MASTERMIND_COLORS[color].css,
+                          borderColor: MASTERMIND_COLORS[color].css,
+                          color: MASTERMIND_COLORS[color].css,
+                        }
+                  }
                 />
               ))}
             </div>
@@ -182,16 +193,14 @@ export function MastermindGame() {
                 onClick={() => placeColor(index)}
                 aria-label={color.name}
                 title={color.name}
-                className={cn(
-                  "h-9 w-9 cursor-pointer rounded-full transition hover:scale-110",
-                  color.className,
-                )}
+                className="glow h-9 w-9 cursor-pointer rounded-full transition hover:scale-110"
+                style={{ backgroundColor: color.css, color: color.css }}
               />
             ))}
           </div>
 
           <p className="text-xs text-muted">
-            Pion noir = bonne couleur bien placée. Pion creux = bonne couleur
+            Pion plein = bonne couleur bien placée. Pion creux = bonne couleur
             mal placée. Cliquez un emplacement pour le vider.
           </p>
         </div>

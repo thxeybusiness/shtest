@@ -8,11 +8,12 @@ export const metadata: Metadata = {
     template: "%s · Jeux de logique",
   },
   description:
-    "Sudoku, démineur, mastermind, taquin et casse-têtes de logique à jouer directement dans le navigateur.",
+    "Cascade, sudoku, démineur, mastermind, taquin et casse-têtes de logique à jouer directement dans le navigateur.",
 };
 
 export const viewport: Viewport = {
-  themeColor: "#4f46e5",
+  themeColor: "#04060e",
+  colorScheme: "dark",
 };
 
 export default function RootLayout({

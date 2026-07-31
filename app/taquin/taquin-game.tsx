@@ -133,13 +133,21 @@ export function TaquinGame() {
               onClick={() => play(index)}
               disabled={!movable.includes(index) || solved}
               className={cn(
-                "flex aspect-square items-center justify-center rounded-lg border border-border text-xl font-semibold transition",
+                "flex aspect-square items-center justify-center rounded-lg border text-xl font-bold transition",
+                // Les tuiles jouables s'allument en néon, les autres restent
+                // en retrait pour que le coup possible saute aux yeux.
                 movable.includes(index) && !solved
-                  ? "cursor-pointer bg-surface hover:bg-accent hover:text-accent-fg"
-                  : "bg-surface-2 text-muted",
+                  ? "text-neon-green glow cursor-pointer border-current bg-current/15"
+                  : "border-border bg-surface-2 text-muted",
               )}
             >
-              {tile}
+              <span
+                className={
+                  movable.includes(index) && !solved ? "text-white" : undefined
+                }
+              >
+                {tile}
+              </span>
             </button>
           ),
         )}

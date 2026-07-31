@@ -1,35 +1,42 @@
 @import "tailwindcss";
 
+/*
+ * Direction artistique : fond sombre (noir, bleu nuit), aire de jeu en blanc et
+ * en couleurs fluo qui s'en détachent nettement. Le thème est volontairement
+ * sombre en permanence — pas de variante claire — pour garder le contraste
+ * maximal sur l'action.
+ */
 :root {
-  --bg: #f5f6f9;
-  --surface: #ffffff;
-  --surface-2: #eef0f5;
-  --border: #dfe2e9;
-  --text: #0f1218;
-  --muted: #666e7d;
-  --accent: #4f46e5;
-  --accent-fg: #ffffff;
-  --good: #16a34a;
-  --bad: #dc2626;
-}
+  color-scheme: dark;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #0a0c11;
-    --surface: #12151d;
-    --surface-2: #191d27;
-    --border: #262b37;
-    --text: #e9ebf1;
-    --muted: #8c94a4;
-    --accent: #8b8bfa;
-    --accent-fg: #0a0c11;
-    --good: #4ade80;
-    --bad: #f87171;
-  }
+  --bg: #04060e;
+  --bg-2: #0b1226;
+  --surface: #0d1427;
+  --surface-2: #151d38;
+  --border: #232e58;
+  --text: #ffffff;
+  --muted: #8792bb;
+
+  --accent: #22e4ff;
+  --accent-fg: #04060e;
+
+  --good: #3dffa0;
+  --bad: #ff3d6e;
+
+  /* Palette fluo de l'aire de jeu. */
+  --neon-cyan: #22e4ff;
+  --neon-magenta: #ff36c6;
+  --neon-green: #3dffa0;
+  --neon-yellow: #ffe14d;
+  --neon-orange: #ff9d3d;
+  --neon-violet: #b06bff;
+  --neon-rose: #ff3d6e;
+  --neon-lime: #c6ff3d;
 }
 
 @theme inline {
   --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
   --color-surface: var(--surface);
   --color-surface-2: var(--surface-2);
   --color-border: var(--border);
@@ -39,15 +46,70 @@
   --color-accent-fg: var(--accent-fg);
   --color-good: var(--good);
   --color-bad: var(--bad);
+
+  --color-neon-cyan: var(--neon-cyan);
+  --color-neon-magenta: var(--neon-magenta);
+  --color-neon-green: var(--neon-green);
+  --color-neon-yellow: var(--neon-yellow);
+  --color-neon-orange: var(--neon-orange);
+  --color-neon-violet: var(--neon-violet);
+  --color-neon-rose: var(--neon-rose);
+  --color-neon-lime: var(--neon-lime);
+}
+
+html {
+  background: var(--bg);
 }
 
 body {
-  background: var(--bg);
+  /* Halo bleu nuit en haut, pour donner de la profondeur au noir. */
+  background: radial-gradient(
+    120% 80% at 50% 0%,
+    var(--bg-2) 0%,
+    transparent 62%
+  );
   color: var(--text);
+}
+
+/* Halo néon, calé sur la couleur du texte de l'élément. */
+.glow {
+  box-shadow:
+    0 0 10px -2px currentColor,
+    0 0 30px -10px currentColor;
+}
+
+.glow-text {
+  text-shadow: 0 0 14px currentColor;
 }
 
 /* Empêche la sélection de texte pendant qu'on clique vite sur une grille. */
 .no-select {
   user-select: none;
   -webkit-user-select: none;
+}
+
+/* Défilement vertical continu du décor de l'aire de jeu. */
+@keyframes scroll-down {
+  from {
+    background-position-y: 0;
+  }
+  to {
+    background-position-y: var(--scroll-step, 64px);
+  }
+}
+
+.scrolling-grid {
+  background-image: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--neon-cyan) 12%, transparent) 1px,
+    transparent 1px
+  );
+  background-size: 100% var(--scroll-step, 64px);
+  animation: scroll-down 1.4s linear infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scrolling-grid {
+    animation: none;
+  }
 }

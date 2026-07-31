@@ -18,17 +18,17 @@ import {
 
 type Status = "prêt" | "en cours" | "gagné" | "perdu";
 
-/** Couleur du chiffre selon le nombre de mines voisines, comme l'original. */
+/** Couleur fluo du chiffre selon le nombre de mines voisines. */
 const ADJACENT_COLORS = [
   "",
-  "text-blue-600 dark:text-blue-400",
-  "text-emerald-600 dark:text-emerald-400",
-  "text-red-600 dark:text-red-400",
-  "text-purple-600 dark:text-purple-400",
-  "text-amber-600 dark:text-amber-400",
-  "text-teal-600 dark:text-teal-400",
-  "text-pink-600 dark:text-pink-400",
-  "text-muted",
+  "text-neon-cyan",
+  "text-neon-green",
+  "text-neon-rose",
+  "text-neon-violet",
+  "text-neon-yellow",
+  "text-neon-magenta",
+  "text-neon-orange",
+  "text-white",
 ];
 
 export function MinesweeperGame() {
@@ -153,14 +153,17 @@ export function MinesweeperGame() {
               }}
               aria-label={`Case ${Math.floor(index / cols) + 1}-${(index % cols) + 1}`}
               className={cn(
-                "flex h-7 w-7 cursor-pointer items-center justify-center text-sm font-semibold transition sm:h-8 sm:w-8",
+                "flex h-7 w-7 cursor-pointer items-center justify-center text-sm font-bold transition sm:h-8 sm:w-8",
                 // Les cases fermées restent en relief, les ouvertes s'aplatissent.
                 cell.revealed
                   ? cell.mine
-                    ? "bg-bad/25"
+                    ? "bg-bad/30"
                     : "bg-bg"
                   : "bg-surface-2 hover:bg-border",
-                cell.revealed && !cell.mine && ADJACENT_COLORS[cell.adjacent],
+                cell.revealed &&
+                  !cell.mine &&
+                  cell.adjacent > 0 &&
+                  `glow-text ${ADJACENT_COLORS[cell.adjacent]}`,
               )}
             >
               {cell.revealed

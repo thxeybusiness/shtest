@@ -93,9 +93,9 @@ export function LightsGame() {
             aria-label={`Lampe ${index + 1} ${on ? "allumée" : "éteinte"}`}
             aria-pressed={on}
             className={cn(
-              "aspect-square cursor-pointer rounded-lg border transition",
+              "aspect-square cursor-pointer rounded-lg border-2 transition",
               on
-                ? "border-amber-300 bg-amber-300 shadow-[0_0_18px_-2px] shadow-amber-400/70"
+                ? "text-neon-yellow glow border-current bg-current"
                 : "border-border bg-surface-2 hover:bg-surface",
             )}
           />
