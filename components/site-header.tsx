@@ -6,7 +6,7 @@ export function SiteHeader() {
       <div className="mx-auto flex w-full max-w-5xl flex-wrap items-center gap-x-6 gap-y-2 px-5 py-3">
         <Link
           href="/"
-          className="text-neon-ember glow-text font-semibold tracking-tight"
+          className="text-tone-clay font-semibold tracking-tight"
         >
           Jeux de logique
         </Link>

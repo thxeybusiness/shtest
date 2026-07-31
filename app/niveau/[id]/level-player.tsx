@@ -136,8 +136,8 @@ export function LevelPlayer({ level }: { level: Level }) {
           ← Carte des niveaux
         </Link>
         <span
-          className="glow-text text-xs font-semibold tracking-widest uppercase"
-          style={{ color: chapter.neon }}
+          className="text-xs font-semibold tracking-widest uppercase"
+          style={{ color: chapter.color }}
         >
           Chapitre {chapter.id} · {chapter.name}
         </span>
@@ -147,7 +147,7 @@ export function LevelPlayer({ level }: { level: Level }) {
         <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
           <span
             className="font-mono text-4xl font-bold"
-            style={{ color: chapter.neon }}
+            style={{ color: chapter.color }}
           >
             {String(level.id).padStart(2, "0")}
           </span>
@@ -168,8 +168,8 @@ export function LevelPlayer({ level }: { level: Level }) {
               Objectif
             </span>
             <span
-              className="glow-text font-semibold"
-              style={{ color: chapter.neon }}
+              className="font-semibold"
+              style={{ color: chapter.color }}
             >
               {objectiveLabel(level.objective)}
             </span>
@@ -208,9 +208,9 @@ export function LevelPlayer({ level }: { level: Level }) {
             <div className="flex max-w-sm flex-col items-center gap-4 text-center">
               <Stars count={shown.stars} size="lg" />
               <p
-                className="glow-text text-2xl font-semibold"
+                className="text-2xl font-semibold"
                 style={{
-                  color: shown.stars > 0 ? chapter.neon : "var(--bad)",
+                  color: shown.stars > 0 ? chapter.color : "var(--bad)",
                 }}
               >
                 {shown.stars > 0

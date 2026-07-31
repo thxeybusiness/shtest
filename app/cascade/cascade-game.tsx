@@ -9,7 +9,7 @@ import { useBestScore } from "@/lib/hooks";
 import {
   CASCADE_LANES,
   CASCADE_LIVES,
-  CASCADE_NEON,
+  CASCADE_TONES,
   type CascadeState,
   advance,
   createCascadeState,
@@ -126,7 +126,7 @@ export function CascadeGame({
           value={
             <span
               className={cn(
-                "text-bad glow-text",
+                "text-bad ",
                 playing && state.lives === 1 && "tense",
               )}
             >
@@ -145,18 +145,18 @@ export function CascadeGame({
       )}
 
       <div className="flex w-full max-w-md flex-col gap-2 self-center">
-        <div className="flex flex-col gap-1.5 rounded-xl border border-neon-ember/40 bg-surface/70 px-4 py-3">
+        <div className="flex flex-col gap-1.5 rounded-xl border border-tone-clay/40 bg-surface/70 px-4 py-3">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-[0.7rem] tracking-widest text-muted uppercase">
               Cliquez
             </span>
-            <span className="text-neon-ember glow-text text-right text-lg font-semibold">
+            <span className="text-tone-clay text-right text-lg font-semibold">
               {rule.label}
             </span>
           </div>
           <div className="h-1 overflow-hidden rounded-full bg-surface-2">
             <div
-              className="text-neon-ember glow h-full bg-current"
+              className="text-tone-clay h-full bg-current"
               style={{ width: `${Math.max(0, ruleProgress(state)) * 100}%` }}
             />
           </div>
@@ -170,7 +170,7 @@ export function CascadeGame({
               className={cn(
                 "pointer-events-none absolute aspect-square rounded-xl border-2",
                 pop.tone === "good"
-                  ? "border-neon-mint text-neon-mint"
+                  ? "border-tone-teal text-tone-teal"
                   : "border-bad text-bad",
               )}
               style={{
@@ -194,13 +194,13 @@ export function CascadeGame({
                 left: `${(block.lane / CASCADE_LANES) * 100}%`,
                 top: `${block.y * 100}%`,
                 width: `${100 / CASCADE_LANES}%`,
-                color: CASCADE_NEON[block.neon],
+                color: CASCADE_TONES[block.color],
               }}
             >
-              {/* La couleur fluo reste sur ce span : `border-current`,
-                  `bg-current` et le halo la reprennent. Le chiffre est blanc
-                  dans un enfant, sinon il écraserait `currentColor`. */}
-              <span className="glow flex h-full w-full items-center justify-center rounded-xl border-2 border-current bg-current/15">
+              {/* La teinte reste sur ce span : `border-current` et `bg-current`
+                  la reprennent. Le chiffre est blanc dans un enfant, sinon il
+                  écraserait `currentColor`. */}
+              <span className="flex h-full w-full items-center justify-center rounded-xl border-2 border-current bg-current/20">
                 <span className="text-lg font-bold text-white">
                   {block.value}
                 </span>
@@ -217,7 +217,7 @@ export function CascadeGame({
 
           {showOverlay && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-bg/85 px-6 text-center">
-              <p className="text-neon-blood glow-text text-2xl font-semibold">
+              <p className="text-tone-brick text-2xl font-semibold">
                 {status === "prêt" ? "Cascade" : "Perdu"}
               </p>
               <p className="max-w-xs text-sm text-muted">

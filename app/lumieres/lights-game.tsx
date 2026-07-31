@@ -116,7 +116,7 @@ export function LightsGame({
             className={cn(
               "aspect-square cursor-pointer rounded-lg border-2 transition",
               on
-                ? "text-neon-gold glow border-current bg-current"
+                ? "text-tone-sand border-current bg-current"
                 : "border-border bg-surface-2 hover:bg-surface",
             )}
           />

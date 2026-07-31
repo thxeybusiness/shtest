@@ -6,30 +6,30 @@ records sont stockés localement.
 
 ## Direction artistique
 
-Fond sombre en permanence (noir, bleu nuit) ; l'aire de jeu est en blanc et en
-couleurs fluo qui s'en détachent nettement. La palette est centralisée dans
-`app/globals.css` sous forme de variables CSS (`--neon-*`), exposées à Tailwind
-via `@theme inline` (`text-neon-ember`, `bg-neon-blood`, …). Deux utilitaires
-portent le néon : `.glow` (halo) et `.glow-text`, tous deux calés sur
-`currentColor`.
+Fond sombre en permanence — pas de variante claire. Pas de fluo ni de halo : sur
+des jeux de réflexion, la couleur sert à distinguer et à hiérarchiser, pas à
+éclairer. Les teintes sont donc désaturées et la lecture revient au blanc et aux
+chiffres.
 
-Elle est ordonnée du plus froid au plus brûlant — glace, menthe, toxique, or,
-braise, fuchsia, violet, sang — et cet ordre porte du sens : la braise sert
-d'accent d'interface, le sang de signal de danger. Les chapitres de la campagne
-suivent la même montée, de la glace au sang, si bien que la carte annonce à
-elle seule l'escalade.
+La palette est centralisée dans `app/globals.css` sous forme de variables CSS
+(`--tone-*`), exposées à Tailwind via `@theme inline` (`text-tone-slate`,
+`bg-tone-clay`, …). Elle est rangée de la plus froide à la plus chaude —
+ardoise, sarcelle, sauge, sable, terre cuite, vieux rose, prune, brique — et cet
+ordre porte du sens : la terre cuite sert d'accent d'interface, la brique de
+signal de danger. Les chapitres de la campagne suivent la même montée, si bien
+que la carte annonce l'escalade à elle seule.
 
 ## Le suspense
 
 Le seuil d'une étoile n'est pas qu'un barème constaté après coup : c'est une
 **réserve qui se vide en jouant** (`budgetOf` dans `lib/campaign.ts`). Le niveau
-affiche ce qu'il en reste, la jauge passe du calme à la braise puis au sang, et
-l'épuiser fait perdre la partie sur-le-champ.
+affiche ce qu'il en reste, la jauge passe du calme à la terre cuite puis à la
+brique, et l'épuiser fait perdre la partie sur-le-champ.
 
-Passé la moitié de la réserve, un halo rouge apparaît en bord d'écran et son
+Passé la moitié de la réserve, un assombrissement rouge cerne l'écran et son
 intensité suit la pression ; au-delà de 85 %, il se met à battre et le compteur
-avec lui. Cascade, qui n'a pas de réserve, tire sa tension de ses vies (halo dès
-la deuxième perdue, battement sur la dernière) et d'un bord bas qui s'embrase à
+avec lui. Cascade, qui n'a pas de réserve, tire sa tension de ses vies (dès la
+deuxième perdue, battement sur la dernière) et d'un bord bas qui s'assombrit à
 mesure qu'un bloc s'en approche — sans révéler lequel il fallait cliquer.
 
 Les mécaniques alimentent tout cela par une seule prop, `onProgress`, qui

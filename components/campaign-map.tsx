@@ -31,11 +31,11 @@ export function CampaignMap() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-5 py-14">
       <header className="flex flex-col gap-5">
-        <span className="text-neon-ember glow-text w-fit text-xs font-semibold tracking-[0.3em] uppercase">
+        <span className="text-tone-clay w-fit text-xs font-semibold tracking-[0.3em] uppercase">
           Campagne · {TOTAL_LEVELS} niveaux
         </span>
         <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
-          Jeux de <span className="text-neon-blood glow-text">logique</span>
+          Jeux de <span className="text-tone-brick ">logique</span>
         </h1>
         <p className="max-w-2xl text-lg text-muted">
           Six mécaniques, une seule progression. Chaque niveau fixe une
@@ -54,12 +54,12 @@ export function CampaignMap() {
             </Button>
           </Link>
           <div className="flex flex-col gap-1">
-            <span className="text-neon-gold glow-text font-mono text-sm">
+            <span className="text-tone-sand font-mono text-sm">
               ★ {stars} / {TOTAL_STARS}
             </span>
             <div className="h-1 w-40 overflow-hidden rounded-full bg-surface-2">
               <div
-                className="text-neon-gold glow h-full bg-current transition-[width]"
+                className="text-tone-sand h-full bg-current transition-[width]"
                 style={{ width: `${(stars / TOTAL_STARS) * 100}%` }}
               />
             </div>
@@ -80,11 +80,11 @@ export function CampaignMap() {
           <section key={chapter.id} className="flex flex-col gap-4">
             <div
               className="flex flex-wrap items-baseline gap-x-3 gap-y-1 border-l-2 pl-4"
-              style={{ borderColor: chapter.neon }}
+              style={{ borderColor: chapter.color }}
             >
               <h2
-                className="glow-text text-xl font-semibold"
-                style={{ color: chapter.neon }}
+                className="text-xl font-semibold"
+                style={{ color: chapter.color }}
               >
                 {chapter.id}. {chapter.name}
               </h2>
@@ -107,7 +107,7 @@ export function CampaignMap() {
                     <div className="flex items-center justify-between gap-2">
                       <span
                         className="font-mono text-2xl font-bold"
-                        style={{ color: unlocked ? chapter.neon : undefined }}
+                        style={{ color: unlocked ? chapter.color : undefined }}
                       >
                         {String(level.id).padStart(2, "0")}
                       </span>
@@ -136,7 +136,7 @@ export function CampaignMap() {
                       <Link
                         href={`/niveau/${level.id}`}
                         className="flex h-full flex-col gap-1.5 rounded-xl border border-border bg-surface/60 p-4 transition hover:bg-surface"
-                        style={{ borderColor: earned > 0 ? chapter.neon : undefined }}
+                        style={{ borderColor: earned > 0 ? chapter.color : undefined }}
                       >
                         {content}
                       </Link>

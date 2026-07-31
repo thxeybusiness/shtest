@@ -19,16 +19,16 @@ import {
 
 type Status = "prêt" | "en cours" | "gagné" | "perdu";
 
-/** Couleur fluo du chiffre selon le nombre de mines voisines. */
+/** Teinte du chiffre selon le nombre de mines voisines. */
 const ADJACENT_COLORS = [
   "",
-  "text-neon-ice",
-  "text-neon-mint",
-  "text-neon-blood",
-  "text-neon-violet",
-  "text-neon-gold",
-  "text-neon-fuchsia",
-  "text-neon-ember",
+  "text-tone-slate",
+  "text-tone-teal",
+  "text-tone-brick",
+  "text-tone-plum",
+  "text-tone-sand",
+  "text-tone-rose",
+  "text-tone-clay",
   "text-white",
 ];
 
@@ -187,7 +187,7 @@ export function MinesweeperGame({
                 cell.revealed &&
                   !cell.mine &&
                   cell.adjacent > 0 &&
-                  `glow-text ${ADJACENT_COLORS[cell.adjacent]}`,
+                  `${ADJACENT_COLORS[cell.adjacent]}`,
               )}
             >
               {cell.revealed

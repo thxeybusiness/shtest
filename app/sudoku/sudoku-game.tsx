@@ -207,7 +207,7 @@ export function SudokuGame({
           Génération de la grille…
         </p>
       ) : (
-        <div className="no-select grid w-full max-w-lg grid-cols-9 self-center overflow-hidden rounded-lg border-2 border-neon-ice/35">
+        <div className="no-select grid w-full max-w-lg grid-cols-9 self-center overflow-hidden rounded-lg border-2 border-tone-slate/35">
           {values.map((value, index) => {
             const row = Math.floor(index / 9);
             const col = index % 9;
@@ -231,17 +231,17 @@ export function SudokuGame({
                 aria-label={`Ligne ${row + 1}, colonne ${col + 1}`}
                 className={cn(
                   "relative flex aspect-square cursor-pointer items-center justify-center border border-border text-lg transition",
-                  col % 3 === 0 && col !== 0 && "border-l-2 border-l-neon-ice/35",
-                  row % 3 === 0 && row !== 0 && "border-t-2 border-t-neon-ice/35",
-                  // Les chiffres donnés restent blancs, les saisies sont fluo.
+                  col % 3 === 0 && col !== 0 && "border-l-2 border-l-tone-slate/35",
+                  row % 3 === 0 && row !== 0 && "border-t-2 border-t-tone-slate/35",
+                  // Les chiffres donnés restent blancs, les saisies sont teintées.
                   isGiven
                     ? "font-semibold text-white"
-                    : "text-neon-ice glow-text font-semibold",
-                  conflicts.has(index) && "text-bad glow-text",
+                    : "text-tone-slate font-semibold",
+                  conflicts.has(index) && "text-bad ",
                   isSelected
-                    ? "bg-neon-ice/25"
+                    ? "bg-tone-slate/25"
                     : isTwin
-                      ? "bg-neon-ice/10"
+                      ? "bg-tone-slate/10"
                       : isPeer
                         ? "bg-surface-2"
                         : "bg-surface",

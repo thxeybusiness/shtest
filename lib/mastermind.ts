@@ -16,18 +16,18 @@ export const MASTERMIND_CONFIG: Record<
 };
 
 /**
- * Palette fluo des pions, dans l'ordre des index de couleur. La valeur CSS
- * sert à la fois de fond et de halo néon.
+ * Palette des pions, dans l'ordre des index de couleur. La valeur CSS sert
+ * de fond ; le contour reprend la même teinte.
  */
 export const MASTERMIND_COLORS = [
-  { name: "cyan", css: "var(--neon-ice)" },
-  { name: "magenta", css: "var(--neon-fuchsia)" },
-  { name: "vert", css: "var(--neon-mint)" },
-  { name: "jaune", css: "var(--neon-gold)" },
-  { name: "violet", css: "var(--neon-violet)" },
-  { name: "orange", css: "var(--neon-ember)" },
-  { name: "rose", css: "var(--neon-blood)" },
-  { name: "citron", css: "var(--neon-toxic)" },
+  { name: "cyan", css: "var(--tone-slate)" },
+  { name: "magenta", css: "var(--tone-rose)" },
+  { name: "vert", css: "var(--tone-teal)" },
+  { name: "jaune", css: "var(--tone-sand)" },
+  { name: "violet", css: "var(--tone-plum)" },
+  { name: "orange", css: "var(--tone-clay)" },
+  { name: "rose", css: "var(--tone-brick)" },
+  { name: "citron", css: "var(--tone-sage)" },
 ];
 
 export type Score = {

@@ -2,40 +2,40 @@
 
 /*
  * Direction artistique : fond sombre (noir, bleu nuit), aire de jeu en blanc et
- * en couleurs fluo qui s'en détachent nettement. Le thème est volontairement
- * sombre en permanence — pas de variante claire — pour garder le contraste
- * maximal sur l'action.
+ * en teintes sourdes. Le thème est volontairement sombre en permanence — pas de
+ * variante claire.
  *
- * La palette est chaude et tendue : la braise sert d'accent, le sang de
- * danger. Les teintes froides (glace, menthe) restent rares et marquent le
- * calme — ce qui laisse la place au basculement quand la pression monte.
+ * Pas de fluo ni de halo : sur des jeux de réflexion, la couleur sert à
+ * distinguer et à hiérarchiser, pas à éclairer. La palette est donc désaturée
+ * et rangée du plus froid au plus chaud, ce qui laisse la lecture au blanc et
+ * aux chiffres.
  */
 :root {
   color-scheme: dark;
 
-  --bg: #05060a;
-  --bg-2: #0e1018;
-  --surface: #12141d;
-  --surface-2: #1b1e2b;
-  --border: #2b2f3f;
-  --text: #ffffff;
-  --muted: #8b90a6;
+  --bg: #070910;
+  --bg-2: #10131d;
+  --surface: #151925;
+  --surface-2: #1e2330;
+  --border: #313848;
+  --text: #f2f4f8;
+  --muted: #949cb0;
 
-  --accent: #ff7d1a;
-  --accent-fg: #100600;
+  --accent: #cd8f5e;
+  --accent-fg: #17100a;
 
-  --good: #1fffb0;
-  --bad: #ff1f47;
+  --good: #7cb98e;
+  --bad: #cc6b75;
 
-  /* Palette fluo de l'aire de jeu, du plus froid au plus brûlant. */
-  --neon-ice: #29d4ff;
-  --neon-mint: #1fffb0;
-  --neon-toxic: #a8ff1f;
-  --neon-gold: #ffc61f;
-  --neon-ember: #ff7d1a;
-  --neon-fuchsia: #ff2f9e;
-  --neon-violet: #9b4dff;
-  --neon-blood: #ff1f47;
+  /* Teintes de l'aire de jeu, de la plus froide à la plus chaude. */
+  --tone-slate: #8aa0c4;
+  --tone-teal: #58b3a5;
+  --tone-sage: #93b374;
+  --tone-sand: #d3b273;
+  --tone-clay: #cd8f5e;
+  --tone-rose: #c88b99;
+  --tone-plum: #9d8cc7;
+  --tone-brick: #cc6b75;
 }
 
 @theme inline {
@@ -51,14 +51,14 @@
   --color-good: var(--good);
   --color-bad: var(--bad);
 
-  --color-neon-ice: var(--neon-ice);
-  --color-neon-mint: var(--neon-mint);
-  --color-neon-toxic: var(--neon-toxic);
-  --color-neon-gold: var(--neon-gold);
-  --color-neon-ember: var(--neon-ember);
-  --color-neon-fuchsia: var(--neon-fuchsia);
-  --color-neon-violet: var(--neon-violet);
-  --color-neon-blood: var(--neon-blood);
+  --color-tone-slate: var(--tone-slate);
+  --color-tone-teal: var(--tone-teal);
+  --color-tone-sage: var(--tone-sage);
+  --color-tone-sand: var(--tone-sand);
+  --color-tone-clay: var(--tone-clay);
+  --color-tone-rose: var(--tone-rose);
+  --color-tone-plum: var(--tone-plum);
+  --color-tone-brick: var(--tone-brick);
 }
 
 html {
@@ -66,24 +66,13 @@ html {
 }
 
 body {
-  /* Halo bleu nuit en haut, pour donner de la profondeur au noir. */
+  /* Éclaircissement discret vers le haut, pour éviter l'aplat de noir. */
   background: radial-gradient(
     120% 80% at 50% 0%,
     var(--bg-2) 0%,
     transparent 62%
   );
   color: var(--text);
-}
-
-/* Halo néon, calé sur la couleur du texte de l'élément. */
-.glow {
-  box-shadow:
-    0 0 10px -2px currentColor,
-    0 0 30px -10px currentColor;
-}
-
-.glow-text {
-  text-shadow: 0 0 14px currentColor;
 }
 
 /* Empêche la sélection de texte pendant qu'on clique vite sur une grille. */
@@ -105,7 +94,7 @@ body {
 .scrolling-grid {
   background-image: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--neon-ember) 12%, transparent) 1px,
+    color-mix(in srgb, var(--border) 45%, transparent) 1px,
     transparent 1px
   );
   background-size: 100% var(--scroll-step, 64px);
@@ -113,31 +102,32 @@ body {
 }
 
 /*
- * Tension : un halo rouge en bord d'écran dont l'intensité suit le danger, et
- * qui se met à battre quand la situation devient critique.
+ * Tension : un assombrissement rouge en bord d'écran dont l'intensité suit la
+ * pression, et qui se met à battre quand la situation devient critique. Le ton
+ * reste sourd — c'est l'assombrissement qui inquiète, pas la saturation.
  */
 .danger-vignette {
   position: fixed;
   inset: 0;
   z-index: 40;
   pointer-events: none;
-  box-shadow: inset 0 0 160px 8px var(--bad);
+  box-shadow: inset 0 0 150px 6px var(--bad);
   transition: opacity 400ms ease-out;
 }
 
 @keyframes heartbeat {
   0%,
   100% {
-    opacity: 0.3;
+    opacity: 0.25;
   }
   18% {
-    opacity: 1;
+    opacity: 0.8;
   }
   32% {
-    opacity: 0.45;
+    opacity: 0.35;
   }
   48% {
-    opacity: 0.9;
+    opacity: 0.7;
   }
 }
 
@@ -152,7 +142,7 @@ body {
     opacity: 1;
   }
   50% {
-    opacity: 0.45;
+    opacity: 0.5;
   }
 }
 

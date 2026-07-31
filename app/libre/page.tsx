@@ -16,7 +16,7 @@ export default function FreePlayPage() {
           ← Carte des niveaux
         </Link>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Partie <span className="text-neon-ember glow-text">libre</span>
+          Partie <span className="text-tone-clay ">libre</span>
         </h1>
         <p className="text-lg text-muted">
           Les mêmes mécaniques que la campagne, sans objectif ni progression :
@@ -30,14 +30,14 @@ export default function FreePlayPage() {
           <li key={game.slug}>
             <Link
               href={`/${game.slug}`}
-              style={{ color: game.neon }}
+              style={{ color: game.color }}
               className="flex h-full flex-col gap-2 rounded-2xl border border-border bg-surface/60 p-6 transition hover:border-current hover:bg-surface"
             >
               <span aria-hidden className="text-3xl">
                 {game.emoji}
               </span>
               <span className="text-lg font-medium text-text">{game.name}</span>
-              <span className="glow-text text-xs font-semibold tracking-widest uppercase">
+              <span className="text-xs font-semibold tracking-widest uppercase">
                 {game.tagline}
               </span>
               <span className="text-sm text-muted">{game.description}</span>

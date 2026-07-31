@@ -1,13 +1,14 @@
 import type { GameSlug } from "./campaign";
 
-/** Présentation d'une mécanique : nom, emoji, couleur fluo, page de partie libre. */
+/** Présentation d'une mécanique : nom, emoji, teinte, page de partie libre. */
 export type GameMeta = {
   slug: GameSlug;
   name: string;
   tagline: string;
   description: string;
   emoji: string;
-  neon: string;
+  /** Teinte d'accent, référencée depuis la feuille de style. */
+  color: string;
 };
 
 export const gameMeta: Record<GameSlug, GameMeta> = {
@@ -18,7 +19,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Les blocs descendent sans arrêt : cliquez ceux qui vérifient la règle avant qu'ils ne sortent.",
     emoji: "⚡",
-    neon: "var(--neon-ember)",
+    color: "var(--tone-clay)",
   },
   sudoku: {
     slug: "sudoku",
@@ -27,7 +28,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Remplissez la grille 9×9 : un seul chiffre par ligne, par colonne et par région.",
     emoji: "🔢",
-    neon: "var(--neon-fuchsia)",
+    color: "var(--tone-rose)",
   },
   demineur: {
     slug: "demineur",
@@ -36,7 +37,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Découvrez toutes les cases sûres en vous fiant au nombre de mines voisines.",
     emoji: "💣",
-    neon: "var(--neon-blood)",
+    color: "var(--tone-brick)",
   },
   mastermind: {
     slug: "mastermind",
@@ -45,7 +46,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Trouvez la combinaison secrète, guidé par les indices de chaque tentative.",
     emoji: "🎯",
-    neon: "var(--neon-violet)",
+    color: "var(--tone-plum)",
   },
   taquin: {
     slug: "taquin",
@@ -54,7 +55,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Faites glisser les tuiles pour les remettre dans l'ordre, en un minimum de mouvements.",
     emoji: "🧩",
-    neon: "var(--neon-mint)",
+    color: "var(--tone-teal)",
   },
   lumieres: {
     slug: "lumieres",
@@ -63,7 +64,7 @@ export const gameMeta: Record<GameSlug, GameMeta> = {
     description:
       "Chaque clic bascule une case et ses voisines. Éteignez toute la grille.",
     emoji: "💡",
-    neon: "var(--neon-gold)",
+    color: "var(--tone-sand)",
   },
 };
 

@@ -23,8 +23,8 @@ export function BudgetMeter({
     used >= 0.85
       ? { text: "text-bad", bar: "bg-bad" }
       : used >= 0.6
-        ? { text: "text-neon-ember", bar: "bg-neon-ember" }
-        : { text: "text-neon-mint", bar: "bg-neon-mint" };
+        ? { text: "text-tone-clay", bar: "bg-tone-clay" }
+        : { text: "text-tone-teal", bar: "bg-tone-teal" };
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -34,7 +34,7 @@ export function BudgetMeter({
         </span>
         <span
           className={cn(
-            "glow-text font-mono text-lg font-semibold tabular-nums",
+            "font-mono text-lg font-semibold tabular-nums",
             tone.text,
             used >= 0.85 && "tense",
           )}

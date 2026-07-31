@@ -13,10 +13,10 @@ export function GameShell({
       <header className="flex flex-col gap-2">
         <h1
           className="flex items-center gap-3 text-3xl font-semibold tracking-tight"
-          style={{ color: game.neon }}
+          style={{ color: game.color }}
         >
           <span aria-hidden>{game.emoji}</span>
-          <span className="glow-text">{game.name}</span>
+          <span className="">{game.name}</span>
         </h1>
         <p className="text-sm text-muted">{game.description}</p>
       </header>

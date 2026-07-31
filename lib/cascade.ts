@@ -36,15 +36,15 @@ export const CASCADE_RULES: CascadeRule[] = [
   },
 ];
 
-/** Couleurs fluo des blocs, référencées depuis la feuille de style. */
-export const CASCADE_NEON = [
-  "var(--neon-ice)",
-  "var(--neon-fuchsia)",
-  "var(--neon-mint)",
-  "var(--neon-gold)",
-  "var(--neon-ember)",
-  "var(--neon-violet)",
-  "var(--neon-toxic)",
+/** Teintes des blocs, référencées depuis la feuille de style. */
+export const CASCADE_TONES = [
+  "var(--tone-slate)",
+  "var(--tone-rose)",
+  "var(--tone-teal)",
+  "var(--tone-sand)",
+  "var(--tone-clay)",
+  "var(--tone-plum)",
+  "var(--tone-sage)",
 ];
 
 export const CASCADE_LANES = 5;
@@ -88,7 +88,7 @@ export type CascadeBlock = {
   /** 0 en haut de l'aire de jeu, 1 juste sorti par le bas. */
   y: number;
   value: number;
-  neon: number;
+  color: number;
 };
 
 export type CascadePop = {
@@ -173,7 +173,7 @@ function spawnBlock(state: CascadeState): CascadeState {
     lane: pick(free),
     y: -0.18,
     value,
-    neon: Math.floor(Math.random() * CASCADE_NEON.length),
+    color: Math.floor(Math.random() * CASCADE_TONES.length),
   };
 
   return { ...state, blocks: [...state.blocks, block], nextId: state.nextId + 1 };

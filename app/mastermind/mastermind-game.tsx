@@ -148,7 +148,7 @@ export function MastermindGame({
                 <span
                   key={slot}
                   title={MASTERMIND_COLORS[color].name}
-                  className="glow h-7 w-7 rounded-full"
+                  className="h-7 w-7 rounded-full"
                   style={{
                     backgroundColor: MASTERMIND_COLORS[color].css,
                     color: MASTERMIND_COLORS[color].css,
@@ -183,7 +183,7 @@ export function MastermindGame({
                     "h-9 w-9 cursor-pointer rounded-full border-2 transition",
                     color === null
                       ? "border-dashed border-border"
-                      : "glow border-solid",
+                      : "border-solid",
                   )}
                   style={
                     color === null
@@ -214,7 +214,7 @@ export function MastermindGame({
                 onClick={() => placeColor(index)}
                 aria-label={color.name}
                 title={color.name}
-                className="glow h-9 w-9 cursor-pointer rounded-full transition hover:scale-110"
+                className="h-9 w-9 cursor-pointer rounded-full transition hover:scale-110"
                 style={{ backgroundColor: color.css, color: color.css }}
               />
             ))}

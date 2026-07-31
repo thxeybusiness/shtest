@@ -52,7 +52,7 @@ export type Chapter = {
   id: number;
   name: string;
   subtitle: string;
-  neon: string;
+  color: string;
 };
 
 /**
@@ -67,31 +67,31 @@ export const chapters: Chapter[] = [
     id: 1,
     name: "Initiation",
     subtitle: "Les six mécaniques, une par une",
-    neon: "var(--neon-ice)",
+    color: "var(--tone-slate)",
   },
   {
     id: 2,
     name: "Déduction",
     subtitle: "Les grilles s'agrandissent",
-    neon: "var(--neon-mint)",
+    color: "var(--tone-teal)",
   },
   {
     id: 3,
     name: "Sous pression",
     subtitle: "Le chrono et les coups se resserrent",
-    neon: "var(--neon-gold)",
+    color: "var(--tone-sand)",
   },
   {
     id: 4,
     name: "Maîtrise",
     subtitle: "Les configurations les plus larges",
-    neon: "var(--neon-ember)",
+    color: "var(--tone-clay)",
   },
   {
     id: 5,
     name: "Épreuve finale",
     subtitle: "Tout ce que le site sait faire",
-    neon: "var(--neon-blood)",
+    color: "var(--tone-brick)",
   },
 ];
 

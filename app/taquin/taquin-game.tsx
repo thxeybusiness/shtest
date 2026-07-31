@@ -158,7 +158,7 @@ export function TaquinGame({
                 // Les tuiles jouables s'allument en néon, les autres restent
                 // en retrait pour que le coup possible saute aux yeux.
                 movable.includes(index) && !solved
-                  ? "text-neon-mint glow cursor-pointer border-current bg-current/15"
+                  ? "text-tone-teal cursor-pointer border-current bg-current/20"
                   : "border-border bg-surface-2 text-muted",
               )}
             >

@@ -11,8 +11,7 @@ export function Button({
   ...props
 }: ButtonProps) {
   const variants = {
-    primary:
-      "bg-accent text-accent-fg shadow-[0_0_20px_-6px] shadow-accent hover:brightness-110",
+    primary: "bg-accent text-accent-fg hover:brightness-110",
     secondary: "bg-surface border border-border hover:border-accent/60",
     ghost:
       "border border-transparent text-muted hover:border-border hover:bg-surface-2 hover:text-text",
@@ -60,7 +59,7 @@ export function SegmentedControl<T extends string>({
           className={cn(
             "cursor-pointer rounded-md px-3 py-1.5 text-sm font-medium capitalize transition",
             option === value
-              ? "bg-accent text-accent-fg shadow-[0_0_18px_-6px] shadow-accent"
+              ? "bg-accent text-accent-fg"
               : "text-muted hover:text-text",
           )}
         >
@@ -95,7 +94,7 @@ export function Banner({
     <div
       role="status"
       className={cn(
-        "glow-text rounded-lg border px-4 py-3 text-sm font-semibold",
+        "rounded-lg border px-4 py-3 text-sm font-semibold",
         tone === "good" ? "border-good/50 text-good" : "border-bad/50 text-bad",
       )}
     >
