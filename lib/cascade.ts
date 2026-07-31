@@ -38,13 +38,13 @@ export const CASCADE_RULES: CascadeRule[] = [
 
 /** Couleurs fluo des blocs, référencées depuis la feuille de style. */
 export const CASCADE_NEON = [
-  "var(--neon-cyan)",
-  "var(--neon-magenta)",
-  "var(--neon-green)",
-  "var(--neon-yellow)",
-  "var(--neon-orange)",
+  "var(--neon-ice)",
+  "var(--neon-fuchsia)",
+  "var(--neon-mint)",
+  "var(--neon-gold)",
+  "var(--neon-ember)",
   "var(--neon-violet)",
-  "var(--neon-lime)",
+  "var(--neon-toxic)",
 ];
 
 export const CASCADE_LANES = 5;

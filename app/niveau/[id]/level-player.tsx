@@ -8,11 +8,14 @@ import { LightsGame } from "@/app/lumieres/lights-game";
 import { MastermindGame } from "@/app/mastermind/mastermind-game";
 import { SudokuGame } from "@/app/sudoku/sudoku-game";
 import { TaquinGame } from "@/app/taquin/taquin-game";
+import { BudgetMeter } from "@/components/budget-meter";
+import { DangerVignette } from "@/components/danger";
 import { Stars } from "@/components/stars";
 import { Button } from "@/components/ui";
 import {
   type Level,
   TOTAL_LEVELS,
+  budgetOf,
   chapters,
   formatValue,
   objectiveLabel,
@@ -28,33 +31,65 @@ type Result = { value: number; won: boolean; stars: number };
 function LevelGame({
   level,
   onFinish,
+  onProgress,
 }: {
   level: Level;
   onFinish: (value: number, won: boolean) => void;
+  onProgress: (value: number) => void;
 }) {
   const { config } = level;
 
   switch (config.game) {
     case "cascade":
+      // Pas de budget ici : la tension de Cascade vient de ses vies.
       return <CascadeGame speedFactor={config.speed} onFinish={onFinish} />;
     case "sudoku":
       return (
-        <SudokuGame fixedDifficulty={config.difficulty} onFinish={onFinish} />
+        <SudokuGame
+          fixedDifficulty={config.difficulty}
+          onFinish={onFinish}
+          onProgress={onProgress}
+        />
       );
     case "demineur":
-      return <MinesweeperGame fixedLevel={config.level} onFinish={onFinish} />;
+      return (
+        <MinesweeperGame
+          fixedLevel={config.level}
+          onFinish={onFinish}
+          onProgress={onProgress}
+        />
+      );
     case "mastermind":
-      return <MastermindGame fixedLevel={config.level} onFinish={onFinish} />;
+      return (
+        <MastermindGame
+          fixedLevel={config.level}
+          onFinish={onFinish}
+          onProgress={onProgress}
+        />
+      );
     case "taquin":
-      return <TaquinGame fixedSize={config.size} onFinish={onFinish} />;
+      return (
+        <TaquinGame
+          fixedSize={config.size}
+          onFinish={onFinish}
+          onProgress={onProgress}
+        />
+      );
     case "lumieres":
-      return <LightsGame fixedSize={config.size} onFinish={onFinish} />;
+      return (
+        <LightsGame
+          fixedSize={config.size}
+          onFinish={onFinish}
+          onProgress={onProgress}
+        />
+      );
   }
 }
 
 export function LevelPlayer({ level }: { level: Level }) {
   const { progress, record } = useProgress();
   const [result, setResult] = useState<Result | null>(null);
+  const [spent, setSpent] = useState(0);
   // Sert de `key` à la mécanique : l'incrémenter la remonte à neuf.
   const [attempt, setAttempt] = useState(0);
 
@@ -62,6 +97,7 @@ export function LevelPlayer({ level }: { level: Level }) {
   const chapter = chapters.find((entry) => entry.id === level.chapter)!;
   const earned = progress[level.id] ?? 0;
   const hasNext = level.id < TOTAL_LEVELS;
+  const budget = budgetOf(level.objective);
 
   const handleFinish = useCallback(
     (value: number, won: boolean) => {
@@ -72,18 +108,31 @@ export function LevelPlayer({ level }: { level: Level }) {
     [level.id, level.objective, record],
   );
 
+  const handleProgress = useCallback((value: number) => {
+    setSpent(value);
+  }, []);
+
   const retry = () => {
     setResult(null);
+    setSpent(0);
     setAttempt((current) => current + 1);
   };
 
+  // Réserve épuisée : le niveau est perdu sans rien rapporter. On le dérive du
+  // rendu plutôt que d'un effet — la victoire, si elle arrive au même moment,
+  // reste prioritaire.
+  const exhausted = budget !== null && spent >= budget;
+  const shown: Result | null =
+    result ?? (exhausted ? { value: spent, won: false, stars: 0 } : null);
+
+  const pressure = budget === null ? 0 : spent / budget;
+
   return (
     <div className="mx-auto flex w-full max-w-3xl flex-col gap-5 px-5 py-8">
+      {shown === null && <DangerVignette level={pressure} />}
+
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <Link
-          href="/"
-          className="text-sm text-muted transition hover:text-text"
-        >
+        <Link href="/" className="text-sm text-muted transition hover:text-text">
           ← Carte des niveaux
         </Link>
         <span
@@ -112,58 +161,78 @@ export function LevelPlayer({ level }: { level: Level }) {
         </p>
       </header>
 
-      <div className="flex flex-wrap items-center justify-between gap-3 rounded-xl border border-border bg-surface/70 px-4 py-3">
-        <div className="flex flex-col gap-0.5">
-          <span className="text-[0.7rem] tracking-widest text-muted uppercase">
-            Objectif
-          </span>
-          <span
-            className="glow-text font-semibold"
-            style={{ color: chapter.neon }}
-          >
-            {objectiveLabel(level.objective)}
-          </span>
-        </div>
-        <div className="flex flex-col items-end gap-1">
-          <Stars count={earned} />
-          <div className="flex gap-3 font-mono text-xs text-muted">
-            {starThresholds(level.objective).map((threshold) => (
-              <span key={threshold.stars}>
-                {"★".repeat(threshold.stars)} {threshold.label}
-              </span>
-            ))}
+      <div className="flex flex-col gap-3 rounded-xl border border-border bg-surface/70 px-4 py-3">
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-col gap-0.5">
+            <span className="text-[0.7rem] tracking-widest text-muted uppercase">
+              Objectif
+            </span>
+            <span
+              className="glow-text font-semibold"
+              style={{ color: chapter.neon }}
+            >
+              {objectiveLabel(level.objective)}
+            </span>
+          </div>
+          <div className="flex flex-col items-end gap-1">
+            <Stars count={earned} />
+            <div className="flex gap-3 font-mono text-xs text-muted">
+              {starThresholds(level.objective).map((threshold) => (
+                <span key={threshold.stars}>
+                  {"★".repeat(threshold.stars)} {threshold.label}
+                </span>
+              ))}
+            </div>
           </div>
         </div>
+
+        {budget !== null && (
+          <BudgetMeter
+            objective={level.objective}
+            spent={spent}
+            budget={budget}
+          />
+        )}
       </div>
 
       <div className="relative">
-        <LevelGame key={attempt} level={level} onFinish={handleFinish} />
+        <LevelGame
+          key={attempt}
+          level={level}
+          onFinish={handleFinish}
+          onProgress={handleProgress}
+        />
 
-        {result && (
+        {shown && (
           <div className="absolute inset-0 z-20 flex items-center justify-center rounded-2xl bg-bg/90 p-6 backdrop-blur">
             <div className="flex max-w-sm flex-col items-center gap-4 text-center">
-              <Stars count={result.stars} size="lg" />
+              <Stars count={shown.stars} size="lg" />
               <p
                 className="glow-text text-2xl font-semibold"
-                style={{ color: result.stars > 0 ? chapter.neon : undefined }}
+                style={{
+                  color: shown.stars > 0 ? chapter.neon : "var(--bad)",
+                }}
               >
-                {result.stars > 0 ? "Niveau réussi" : "Objectif manqué"}
+                {shown.stars > 0
+                  ? "Niveau réussi"
+                  : exhausted && !result
+                    ? "Réserve épuisée"
+                    : "Objectif manqué"}
               </p>
               <p className="text-sm text-muted">
-                {result.won
-                  ? `Résultat : ${formatValue(level.objective, result.value)}.`
-                  : "Partie perdue — le niveau demande d'aller au bout."}
-                {result.stars > 0 && result.stars < 3 && (
-                  <>
-                    {" "}
-                    Il reste de la marge pour décrocher les trois étoiles.
-                  </>
+                {exhausted && !result
+                  ? `Il ne restait plus rien : ${objectiveLabel(level.objective).toLowerCase()}.`
+                  : shown.won
+                    ? `Résultat : ${formatValue(level.objective, shown.value)}.`
+                    : "Partie perdue — le niveau demande d'aller au bout."}
+                {shown.stars > 0 && shown.stars < 3 && (
+                  <> Il reste de la marge pour décrocher les trois étoiles.</>
                 )}
               </p>
 
               <div className="flex flex-wrap justify-center gap-2">
                 <Button onClick={retry}>Rejouer</Button>
-                {result.stars > 0 && hasNext && (
+                {shown.stars > 0 && hasNext && (
                   <Link href={`/niveau/${level.id + 1}`}>
                     <Button variant="primary">Niveau suivant →</Button>
                   </Link>

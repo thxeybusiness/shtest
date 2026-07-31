@@ -31,11 +31,11 @@ export function CampaignMap() {
   return (
     <div className="mx-auto flex w-full max-w-5xl flex-col gap-12 px-5 py-14">
       <header className="flex flex-col gap-5">
-        <span className="text-neon-cyan glow-text w-fit text-xs font-semibold tracking-[0.3em] uppercase">
+        <span className="text-neon-ember glow-text w-fit text-xs font-semibold tracking-[0.3em] uppercase">
           Campagne · {TOTAL_LEVELS} niveaux
         </span>
         <h1 className="text-5xl font-semibold tracking-tight sm:text-6xl">
-          Jeux de <span className="text-neon-magenta glow-text">logique</span>
+          Jeux de <span className="text-neon-blood glow-text">logique</span>
         </h1>
         <p className="max-w-2xl text-lg text-muted">
           Six mécaniques, une seule progression. Chaque niveau fixe une
@@ -54,12 +54,12 @@ export function CampaignMap() {
             </Button>
           </Link>
           <div className="flex flex-col gap-1">
-            <span className="text-neon-yellow glow-text font-mono text-sm">
+            <span className="text-neon-gold glow-text font-mono text-sm">
               ★ {stars} / {TOTAL_STARS}
             </span>
             <div className="h-1 w-40 overflow-hidden rounded-full bg-surface-2">
               <div
-                className="text-neon-yellow glow h-full bg-current transition-[width]"
+                className="text-neon-gold glow h-full bg-current transition-[width]"
                 style={{ width: `${(stars / TOTAL_STARS) * 100}%` }}
               />
             </div>

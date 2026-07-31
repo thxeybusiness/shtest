@@ -20,10 +20,13 @@ type Attempt = { guess: number[]; score: Score };
 export function MastermindGame({
   fixedLevel,
   onFinish,
+  onProgress,
 }: {
   /** Niveau imposé par un niveau de campagne. */
   fixedLevel?: MastermindLevel;
   onFinish?: LevelReport;
+  /** Rapporte en continu la métrique suivie par le niveau. */
+  onProgress?: (value: number) => void;
 } = {}) {
   const [chosenLevel, setLevel] = useState<MastermindLevel>("facile");
   const level = fixedLevel ?? chosenLevel;
@@ -51,6 +54,11 @@ export function MastermindGame({
     // eslint-disable-next-line react-hooks/set-state-in-effect
     newGame();
   }, [newGame]);
+
+  // Le niveau consomme des essais : il les suit pour vider sa réserve.
+  useEffect(() => {
+    onProgress?.(attempts.length);
+  }, [attempts.length, onProgress]);
 
   const placeColor = (color: number) => {
     if (status !== "en cours") return;

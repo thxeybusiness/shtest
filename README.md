@@ -9,9 +9,32 @@ records sont stockés localement.
 Fond sombre en permanence (noir, bleu nuit) ; l'aire de jeu est en blanc et en
 couleurs fluo qui s'en détachent nettement. La palette est centralisée dans
 `app/globals.css` sous forme de variables CSS (`--neon-*`), exposées à Tailwind
-via `@theme inline` (`text-neon-cyan`, `bg-neon-magenta`, …). Deux utilitaires
+via `@theme inline` (`text-neon-ember`, `bg-neon-blood`, …). Deux utilitaires
 portent le néon : `.glow` (halo) et `.glow-text`, tous deux calés sur
 `currentColor`.
+
+Elle est ordonnée du plus froid au plus brûlant — glace, menthe, toxique, or,
+braise, fuchsia, violet, sang — et cet ordre porte du sens : la braise sert
+d'accent d'interface, le sang de signal de danger. Les chapitres de la campagne
+suivent la même montée, de la glace au sang, si bien que la carte annonce à
+elle seule l'escalade.
+
+## Le suspense
+
+Le seuil d'une étoile n'est pas qu'un barème constaté après coup : c'est une
+**réserve qui se vide en jouant** (`budgetOf` dans `lib/campaign.ts`). Le niveau
+affiche ce qu'il en reste, la jauge passe du calme à la braise puis au sang, et
+l'épuiser fait perdre la partie sur-le-champ.
+
+Passé la moitié de la réserve, un halo rouge apparaît en bord d'écran et son
+intensité suit la pression ; au-delà de 85 %, il se met à battre et le compteur
+avec lui. Cascade, qui n'a pas de réserve, tire sa tension de ses vies (halo dès
+la deuxième perdue, battement sur la dernière) et d'un bord bas qui s'embrase à
+mesure qu'un bloc s'en approche — sans révéler lequel il fallait cliquer.
+
+Les mécaniques alimentent tout cela par une seule prop, `onProgress`, qui
+rapporte la métrique en cours au niveau qui les héberge. Toutes les animations
+de tension respectent `prefers-reduced-motion`.
 
 ## La campagne
 

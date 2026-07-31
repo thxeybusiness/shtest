@@ -67,31 +67,31 @@ export const chapters: Chapter[] = [
     id: 1,
     name: "Initiation",
     subtitle: "Les six mécaniques, une par une",
-    neon: "var(--neon-cyan)",
+    neon: "var(--neon-ice)",
   },
   {
     id: 2,
     name: "Déduction",
     subtitle: "Les grilles s'agrandissent",
-    neon: "var(--neon-green)",
+    neon: "var(--neon-mint)",
   },
   {
     id: 3,
     name: "Sous pression",
     subtitle: "Le chrono et les coups se resserrent",
-    neon: "var(--neon-yellow)",
+    neon: "var(--neon-gold)",
   },
   {
     id: 4,
     name: "Maîtrise",
     subtitle: "Les configurations les plus larges",
-    neon: "var(--neon-magenta)",
+    neon: "var(--neon-ember)",
   },
   {
     id: 5,
     name: "Épreuve finale",
     subtitle: "Tout ce que le site sait faire",
-    neon: "var(--neon-rose)",
+    neon: "var(--neon-blood)",
   },
 ];
 
@@ -369,6 +369,35 @@ export function formatValue(objective: Objective, value: number): string {
     default:
       return `${value} ${objective.noun ?? "coups"}`;
   }
+}
+
+/**
+ * Budget consommable du niveau : le seuil d'une étoile devient une réserve qui
+ * se vide en jouant (temps, coups). L'épuiser fait perdre le niveau — c'est ce
+ * qui met la partie sous tension, au lieu de constater l'échec à la fin.
+ *
+ * Les objectifs de score n'ont pas de budget : leur pression vient des vies.
+ */
+export function budgetOf(objective: Objective): number | null {
+  return isLowerBetter(objective) ? objective.pass : null;
+}
+
+/** Intitulé du budget : « Temps restant », « Coups restants ». */
+export function budgetLabel(objective: Objective): string {
+  if (objective.metric === "time") return "Temps restant";
+  const noun = objective.noun ?? "coups";
+  return `${noun[0].toUpperCase()}${noun.slice(1)} restants`;
+}
+
+/** Ce qu'il reste du budget après `spent`, mis en forme. */
+export function formatRemaining(objective: Objective, spent: number): string {
+  const budget = budgetOf(objective);
+  if (budget === null) return "";
+
+  const left = Math.max(0, budget - spent);
+  return objective.metric === "time"
+    ? formatDuration(left)
+    : `${left} ${objective.noun ?? "coups"}`;
 }
 
 /** Phrase d'objectif affichée au-dessus de l'aire de jeu. */

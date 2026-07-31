@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { DangerVignette } from "@/components/danger";
 import { Banner, Button, Stat } from "@/components/ui";
 import type { LevelReport } from "@/lib/campaign";
 import { cn } from "@/lib/cn";
@@ -89,8 +90,24 @@ export function CascadeGame({
   // on n'affiche pas en plus l'écran « Perdu » propre au jeu.
   const showOverlay = !playing && !(onFinish && status === "perdu");
 
+  // Tension : elle monte à la deuxième vie perdue et devient critique sur la
+  // dernière, où l'écran se met à battre.
+  const danger = !playing
+    ? 0
+    : state.lives >= CASCADE_LIVES
+      ? 0
+      : state.lives === CASCADE_LIVES - 1
+        ? 0.65
+        : 0.95;
+
+  // Le bord bas rougit à mesure que le bloc le plus avancé s'en approche —
+  // sans révéler lequel il fallait cliquer.
+  const lowest = state.blocks.reduce((low, block) => Math.max(low, block.y), 0);
+  const edge = playing ? Math.min(1, Math.max(0, (lowest - 0.55) / 0.4)) : 0;
+
   return (
     <div className="flex flex-col gap-5">
+      <DangerVignette level={danger} />
       {/* En campagne, « Démarrer » et « Rejouer » vivent dans les écrans du
           niveau : ce bandeau ferait doublon. */}
       {!onFinish && (
@@ -107,7 +124,12 @@ export function CascadeGame({
         <Stat
           label="Vies"
           value={
-            <span className="text-bad glow-text">
+            <span
+              className={cn(
+                "text-bad glow-text",
+                playing && state.lives === 1 && "tense",
+              )}
+            >
               {"◆".repeat(Math.max(0, state.lives)) || "—"}
             </span>
           }
@@ -123,18 +145,18 @@ export function CascadeGame({
       )}
 
       <div className="flex w-full max-w-md flex-col gap-2 self-center">
-        <div className="flex flex-col gap-1.5 rounded-xl border border-neon-cyan/40 bg-surface/70 px-4 py-3">
+        <div className="flex flex-col gap-1.5 rounded-xl border border-neon-ember/40 bg-surface/70 px-4 py-3">
           <div className="flex items-baseline justify-between gap-3">
             <span className="text-[0.7rem] tracking-widest text-muted uppercase">
               Cliquez
             </span>
-            <span className="text-neon-cyan glow-text text-right text-lg font-semibold">
+            <span className="text-neon-ember glow-text text-right text-lg font-semibold">
               {rule.label}
             </span>
           </div>
           <div className="h-1 overflow-hidden rounded-full bg-surface-2">
             <div
-              className="text-neon-cyan glow h-full bg-current"
+              className="text-neon-ember glow h-full bg-current"
               style={{ width: `${Math.max(0, ruleProgress(state)) * 100}%` }}
             />
           </div>
@@ -148,7 +170,7 @@ export function CascadeGame({
               className={cn(
                 "pointer-events-none absolute aspect-square rounded-xl border-2",
                 pop.tone === "good"
-                  ? "border-neon-green text-neon-green"
+                  ? "border-neon-mint text-neon-mint"
                   : "border-bad text-bad",
               )}
               style={{
@@ -186,9 +208,16 @@ export function CascadeGame({
             </button>
           ))}
 
+          {/* Le bas de l'aire s'embrase quand un bloc arrive au bout. */}
+          <div
+            aria-hidden
+            className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-bad to-transparent transition-opacity duration-200"
+            style={{ opacity: edge * 0.7 }}
+          />
+
           {showOverlay && (
             <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-bg/85 px-6 text-center">
-              <p className="text-neon-magenta glow-text text-2xl font-semibold">
+              <p className="text-neon-blood glow-text text-2xl font-semibold">
                 {status === "prêt" ? "Cascade" : "Perdu"}
               </p>
               <p className="max-w-xs text-sm text-muted">

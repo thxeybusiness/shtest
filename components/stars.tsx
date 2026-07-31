@@ -23,7 +23,7 @@ export function Stars({
           aria-hidden
           className={
             slot <= count
-              ? "text-neon-yellow glow-text"
+              ? "text-neon-gold glow-text"
               : "text-border"
           }
         >

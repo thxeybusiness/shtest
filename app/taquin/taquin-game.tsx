@@ -20,11 +20,14 @@ import {
 
 export function TaquinGame({
   fixedSize,
+  onProgress,
   onFinish,
 }: {
   /** Taille imposée par un niveau de campagne. */
   fixedSize?: TaquinSize;
   onFinish?: LevelReport;
+  /** Rapporte en continu la métrique suivie par le niveau. */
+  onProgress?: (value: number) => void;
 } = {}) {
   const [chosenSize, setSize] = useState<TaquinSize>(fixedSize ?? 3);
   const size = fixedSize ?? chosenSize;
@@ -62,6 +65,11 @@ export function TaquinGame({
     // On n'enregistre qu'au moment où le taquin devient résolu.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solved]);
+
+  // Le niveau consomme des coups : il les suit pour vider sa réserve.
+  useEffect(() => {
+    onProgress?.(moves);
+  }, [moves, onProgress]);
 
   const play = useCallback(
     (index: number) => {
@@ -150,7 +158,7 @@ export function TaquinGame({
                 // Les tuiles jouables s'allument en néon, les autres restent
                 // en retrait pour que le coup possible saute aux yeux.
                 movable.includes(index) && !solved
-                  ? "text-neon-green glow cursor-pointer border-current bg-current/15"
+                  ? "text-neon-mint glow cursor-pointer border-current bg-current/15"
                   : "border-border bg-surface-2 text-muted",
               )}
             >

@@ -20,11 +20,14 @@ type Puzzle = {
 
 export function SudokuGame({
   fixedDifficulty,
+  onProgress,
   onFinish,
 }: {
   /** Difficulté imposée par un niveau de campagne. */
   fixedDifficulty?: SudokuDifficulty;
   onFinish?: LevelReport;
+  /** Rapporte en continu la métrique suivie par le niveau. */
+  onProgress?: (value: number) => void;
 } = {}) {
   const [chosenDifficulty, setDifficulty] =
     useState<SudokuDifficulty>("moyen");
@@ -76,6 +79,11 @@ export function SudokuGame({
     // On ne veut enregistrer qu'à la transition vers « résolu ».
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [solved]);
+
+  // Le niveau consomme du temps : il le suit pour vider sa réserve.
+  useEffect(() => {
+    onProgress?.(elapsed);
+  }, [elapsed, onProgress]);
 
   const conflicts = useMemo(() => findConflicts(values), [values]);
 
@@ -199,7 +207,7 @@ export function SudokuGame({
           Génération de la grille…
         </p>
       ) : (
-        <div className="no-select grid w-full max-w-lg grid-cols-9 self-center overflow-hidden rounded-lg border-2 border-neon-cyan/35">
+        <div className="no-select grid w-full max-w-lg grid-cols-9 self-center overflow-hidden rounded-lg border-2 border-neon-ice/35">
           {values.map((value, index) => {
             const row = Math.floor(index / 9);
             const col = index % 9;
@@ -223,17 +231,17 @@ export function SudokuGame({
                 aria-label={`Ligne ${row + 1}, colonne ${col + 1}`}
                 className={cn(
                   "relative flex aspect-square cursor-pointer items-center justify-center border border-border text-lg transition",
-                  col % 3 === 0 && col !== 0 && "border-l-2 border-l-neon-cyan/35",
-                  row % 3 === 0 && row !== 0 && "border-t-2 border-t-neon-cyan/35",
+                  col % 3 === 0 && col !== 0 && "border-l-2 border-l-neon-ice/35",
+                  row % 3 === 0 && row !== 0 && "border-t-2 border-t-neon-ice/35",
                   // Les chiffres donnés restent blancs, les saisies sont fluo.
                   isGiven
                     ? "font-semibold text-white"
-                    : "text-neon-cyan glow-text font-semibold",
+                    : "text-neon-ice glow-text font-semibold",
                   conflicts.has(index) && "text-bad glow-text",
                   isSelected
-                    ? "bg-neon-cyan/25"
+                    ? "bg-neon-ice/25"
                     : isTwin
-                      ? "bg-neon-cyan/10"
+                      ? "bg-neon-ice/10"
                       : isPeer
                         ? "bg-surface-2"
                         : "bg-surface",

@@ -20,14 +20,14 @@ export const MASTERMIND_CONFIG: Record<
  * sert à la fois de fond et de halo néon.
  */
 export const MASTERMIND_COLORS = [
-  { name: "cyan", css: "var(--neon-cyan)" },
-  { name: "magenta", css: "var(--neon-magenta)" },
-  { name: "vert", css: "var(--neon-green)" },
-  { name: "jaune", css: "var(--neon-yellow)" },
+  { name: "cyan", css: "var(--neon-ice)" },
+  { name: "magenta", css: "var(--neon-fuchsia)" },
+  { name: "vert", css: "var(--neon-mint)" },
+  { name: "jaune", css: "var(--neon-gold)" },
   { name: "violet", css: "var(--neon-violet)" },
-  { name: "orange", css: "var(--neon-orange)" },
-  { name: "rose", css: "var(--neon-rose)" },
-  { name: "citron", css: "var(--neon-lime)" },
+  { name: "orange", css: "var(--neon-ember)" },
+  { name: "rose", css: "var(--neon-blood)" },
+  { name: "citron", css: "var(--neon-toxic)" },
 ];
 
 export type Score = {

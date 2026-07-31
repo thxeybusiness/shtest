@@ -5,33 +5,37 @@
  * en couleurs fluo qui s'en détachent nettement. Le thème est volontairement
  * sombre en permanence — pas de variante claire — pour garder le contraste
  * maximal sur l'action.
+ *
+ * La palette est chaude et tendue : la braise sert d'accent, le sang de
+ * danger. Les teintes froides (glace, menthe) restent rares et marquent le
+ * calme — ce qui laisse la place au basculement quand la pression monte.
  */
 :root {
   color-scheme: dark;
 
-  --bg: #04060e;
-  --bg-2: #0b1226;
-  --surface: #0d1427;
-  --surface-2: #151d38;
-  --border: #232e58;
+  --bg: #05060a;
+  --bg-2: #0e1018;
+  --surface: #12141d;
+  --surface-2: #1b1e2b;
+  --border: #2b2f3f;
   --text: #ffffff;
-  --muted: #8792bb;
+  --muted: #8b90a6;
 
-  --accent: #22e4ff;
-  --accent-fg: #04060e;
+  --accent: #ff7d1a;
+  --accent-fg: #100600;
 
-  --good: #3dffa0;
-  --bad: #ff3d6e;
+  --good: #1fffb0;
+  --bad: #ff1f47;
 
-  /* Palette fluo de l'aire de jeu. */
-  --neon-cyan: #22e4ff;
-  --neon-magenta: #ff36c6;
-  --neon-green: #3dffa0;
-  --neon-yellow: #ffe14d;
-  --neon-orange: #ff9d3d;
-  --neon-violet: #b06bff;
-  --neon-rose: #ff3d6e;
-  --neon-lime: #c6ff3d;
+  /* Palette fluo de l'aire de jeu, du plus froid au plus brûlant. */
+  --neon-ice: #29d4ff;
+  --neon-mint: #1fffb0;
+  --neon-toxic: #a8ff1f;
+  --neon-gold: #ffc61f;
+  --neon-ember: #ff7d1a;
+  --neon-fuchsia: #ff2f9e;
+  --neon-violet: #9b4dff;
+  --neon-blood: #ff1f47;
 }
 
 @theme inline {
@@ -47,14 +51,14 @@
   --color-good: var(--good);
   --color-bad: var(--bad);
 
-  --color-neon-cyan: var(--neon-cyan);
-  --color-neon-magenta: var(--neon-magenta);
-  --color-neon-green: var(--neon-green);
-  --color-neon-yellow: var(--neon-yellow);
-  --color-neon-orange: var(--neon-orange);
+  --color-neon-ice: var(--neon-ice);
+  --color-neon-mint: var(--neon-mint);
+  --color-neon-toxic: var(--neon-toxic);
+  --color-neon-gold: var(--neon-gold);
+  --color-neon-ember: var(--neon-ember);
+  --color-neon-fuchsia: var(--neon-fuchsia);
   --color-neon-violet: var(--neon-violet);
-  --color-neon-rose: var(--neon-rose);
-  --color-neon-lime: var(--neon-lime);
+  --color-neon-blood: var(--neon-blood);
 }
 
 html {
@@ -101,15 +105,65 @@ body {
 .scrolling-grid {
   background-image: linear-gradient(
     to bottom,
-    color-mix(in srgb, var(--neon-cyan) 12%, transparent) 1px,
+    color-mix(in srgb, var(--neon-ember) 12%, transparent) 1px,
     transparent 1px
   );
   background-size: 100% var(--scroll-step, 64px);
   animation: scroll-down 1.4s linear infinite;
 }
 
+/*
+ * Tension : un halo rouge en bord d'écran dont l'intensité suit le danger, et
+ * qui se met à battre quand la situation devient critique.
+ */
+.danger-vignette {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  box-shadow: inset 0 0 160px 8px var(--bad);
+  transition: opacity 400ms ease-out;
+}
+
+@keyframes heartbeat {
+  0%,
+  100% {
+    opacity: 0.3;
+  }
+  18% {
+    opacity: 1;
+  }
+  32% {
+    opacity: 0.45;
+  }
+  48% {
+    opacity: 0.9;
+  }
+}
+
+.danger-vignette[data-critical="true"] {
+  animation: heartbeat 1.15s ease-in-out infinite;
+}
+
+/* Le compte à rebours bat au même rythme quand il est presque épuisé. */
+@keyframes tense {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.45;
+  }
+}
+
+.tense {
+  animation: tense 1.15s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .scrolling-grid {
+  .scrolling-grid,
+  .danger-vignette[data-critical="true"],
+  .tense {
     animation: none;
   }
 }

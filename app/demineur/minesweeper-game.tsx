@@ -22,23 +22,26 @@ type Status = "prêt" | "en cours" | "gagné" | "perdu";
 /** Couleur fluo du chiffre selon le nombre de mines voisines. */
 const ADJACENT_COLORS = [
   "",
-  "text-neon-cyan",
-  "text-neon-green",
-  "text-neon-rose",
+  "text-neon-ice",
+  "text-neon-mint",
+  "text-neon-blood",
   "text-neon-violet",
-  "text-neon-yellow",
-  "text-neon-magenta",
-  "text-neon-orange",
+  "text-neon-gold",
+  "text-neon-fuchsia",
+  "text-neon-ember",
   "text-white",
 ];
 
 export function MinesweeperGame({
   fixedLevel,
+  onProgress,
   onFinish,
 }: {
   /** Niveau imposé par un niveau de campagne. */
   fixedLevel?: MinesweeperLevel;
   onFinish?: LevelReport;
+  /** Rapporte en continu la métrique suivie par le niveau. */
+  onProgress?: (value: number) => void;
 } = {}) {
   const [chosenLevel, setLevel] = useState<MinesweeperLevel>("facile");
   const level = fixedLevel ?? chosenLevel;
@@ -74,6 +77,11 @@ export function MinesweeperGame({
     // Seules les transitions vers une fin de partie nous intéressent.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [status]);
+
+  // Le niveau consomme du temps : il le suit pour vider sa réserve.
+  useEffect(() => {
+    onProgress?.(elapsed);
+  }, [elapsed, onProgress]);
 
   const flagged = useMemo(
     () => board.filter((cell) => cell.flagged).length,

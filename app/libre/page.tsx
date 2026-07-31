@@ -16,7 +16,7 @@ export default function FreePlayPage() {
           ← Carte des niveaux
         </Link>
         <h1 className="text-4xl font-semibold tracking-tight sm:text-5xl">
-          Partie <span className="text-neon-cyan glow-text">libre</span>
+          Partie <span className="text-neon-ember glow-text">libre</span>
         </h1>
         <p className="text-lg text-muted">
           Les mêmes mécaniques que la campagne, sans objectif ni progression :
