@@ -19,6 +19,36 @@ import { SymetrieDouble } from "@/components/noir/niveaux/symetrie";
 import { Glissement } from "@/components/noir/niveaux/glissement";
 import { Alternance } from "@/components/noir/niveaux/alternance";
 import { Silence } from "@/components/noir/niveaux/silence";
+import { Paires } from "@/components/noir/niveaux/paires";
+import { Cavalier } from "@/components/noir/niveaux/cavalier";
+import { Fantome } from "@/components/noir/niveaux/fantome";
+import { Tailles } from "@/components/noir/niveaux/tailles";
+import { Double } from "@/components/noir/niveaux/double";
+import { Sablier } from "@/components/noir/niveaux/sablier";
+import { Chaud } from "@/components/noir/niveaux/chaud";
+import { Interrupteurs } from "@/components/noir/niveaux/interrupteurs";
+import { Empreinte } from "@/components/noir/niveaux/empreinte";
+import { Ronde } from "@/components/noir/niveaux/ronde";
+import { Taquin } from "@/components/noir/niveaux/taquin";
+import { Code } from "@/components/noir/niveaux/code";
+import { Contagion } from "@/components/noir/niveaux/contagion";
+import { Retard } from "@/components/noir/niveaux/retard";
+import { Pesee } from "@/components/noir/niveaux/pesee";
+import { Appui } from "@/components/noir/niveaux/appui";
+import { AxeCache } from "@/components/noir/niveaux/axe";
+import { Nonogramme } from "@/components/noir/niveaux/nonogramme";
+import { Engrenage } from "@/components/noir/niveaux/engrenage";
+import { Hanoi } from "@/components/noir/niveaux/hanoi";
+import { Lumieres } from "@/components/noir/niveaux/lumieres";
+import { Sudoku } from "@/components/noir/niveaux/sudoku";
+import { Tournee } from "@/components/noir/niveaux/tournee";
+import { AnneauTrois } from "@/components/noir/niveaux/anneau-trois";
+import { Rangs } from "@/components/noir/niveaux/rangs";
+import { Traverse } from "@/components/noir/niveaux/traverse";
+import { Jumelles } from "@/components/noir/niveaux/jumelles";
+import { Domino } from "@/components/noir/niveaux/domino";
+import { Chiffres } from "@/components/noir/niveaux/chiffres";
+import { Aiguille } from "@/components/noir/niveaux/aiguille";
 import { palierDuNiveau, type Palier } from "./paliers";
 import type { NiveauProps } from "./types";
 
@@ -120,6 +150,134 @@ const DEFINITIONS: Definition[] = [
   {
     composant: Silence,
     indice: "Rien ne presse. C'est même tout le contraire.",
+  },
+
+  // ── Palier 3 — bleu ────────────────────────────────────────────────────────
+  {
+    composant: Paires,
+    indice: "Rien ne se joue tout seul ici : chaque signe existe en double.",
+  },
+  {
+    composant: Cavalier,
+    indice: "Ni les voisines, ni la ligne : regardez plus loin, et de biais.",
+  },
+  {
+    composant: Fantome,
+    indice: "Chaque case en éteint une autre. Voyez laquelle, et remontez.",
+  },
+  {
+    composant: Tailles,
+    indice: "Pas de chiffres, mais un ordre quand même. Regardez la taille.",
+  },
+  {
+    composant: Double,
+    indice: "Un toucher ne suffit pas, et deux touchers lents non plus.",
+  },
+  {
+    composant: Sablier,
+    indice: "Rien ne tient longtemps. Ne réfléchissez plus, enchaînez.",
+  },
+  {
+    composant: Chaud,
+    indice:
+      "Une case se cache. Les autres ne s'allument pas, elles se réchauffent.",
+  },
+  {
+    composant: Interrupteurs,
+    indice: "Le haut commande le bas, mais pas un pour un.",
+  },
+  {
+    composant: Empreinte,
+    indice: "L'ordre n'a aucune importance : ce sont les cases qui comptent.",
+  },
+  {
+    composant: Ronde,
+    indice: "Il faut la toucher là où elle est, pas là où elle était.",
+  },
+
+  // ── Palier 4 — rouge ───────────────────────────────────────────────────────
+  {
+    composant: Taquin,
+    indice: "Le trou est la seule chose qui bouge. Rangez du plus pâle au plus franc.",
+  },
+  {
+    composant: Code,
+    indice: "Les quatre repères du haut comptent, sans jamais désigner.",
+  },
+  {
+    composant: Contagion,
+    indice: "Ce n'est pas la case touchée qui change, c'est le coin haut-gauche.",
+  },
+  {
+    composant: Retard,
+    indice: "Ce que vous venez de faire n'arrivera qu'au prochain toucher.",
+  },
+  {
+    composant: Pesee,
+    indice: "Les deux côtés doivent peser exactement pareil.",
+  },
+  {
+    composant: Appui,
+    indice:
+      "Le doigt dit deux choses selon le temps qu'il reste posé, et il faut les deux.",
+  },
+  {
+    composant: AxeCache,
+    indice: "Il y a bien un axe. Le premier toucher est ce qui le révèle.",
+  },
+  {
+    composant: Nonogramme,
+    indice: "Les chiffres en marge comptent les cases de leur ligne.",
+  },
+  {
+    composant: Engrenage,
+    indice: "Tourner l'un entraîne le suivant, et plus vite que lui.",
+  },
+  {
+    composant: Hanoi,
+    indice: "Jamais un grand sur un petit. Tout doit finir à droite.",
+  },
+
+  // ── Palier 5 — vert ────────────────────────────────────────────────────────
+  {
+    composant: Lumieres,
+    indice: "Descendez ligne par ligne : la première décide de tout le reste.",
+  },
+  {
+    composant: Sudoku,
+    indice: "Quatre teintes, et chacune une seule fois par ligne, colonne et bloc.",
+  },
+  {
+    composant: Tournee,
+    indice: "Des sauts de cavalier, sans repasser. Le départ n'est pas anodin.",
+  },
+  {
+    composant: AnneauTrois,
+    indice: "Cinq cases avancent d'un cran à la fois, et l'anneau n'a pas de fin.",
+  },
+  {
+    composant: Rangs,
+    indice: "Rien ne s'allume : les cases s'échangent, et les lignes doivent s'égaler.",
+  },
+  {
+    composant: Traverse,
+    indice: "Quatre cases sont mortes. Toutes les autres, d'un seul trait.",
+  },
+  {
+    composant: Jumelles,
+    indice: "Chaque grille renvoie sur l'autre, mais pas de la même façon.",
+  },
+  {
+    composant: Domino,
+    indice: "Deux cases à la fois, côte à côte. Une paire posée se reprend.",
+  },
+  {
+    composant: Chiffres,
+    indice: "Le chiffre d'une case parle de ses voisines, pas d'elle.",
+  },
+  {
+    composant: Aiguille,
+    indice: "Une seule case n'est pas comme les autres. Trois fois de suite.",
   },
 ];
 

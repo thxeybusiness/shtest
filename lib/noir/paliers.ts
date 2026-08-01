@@ -38,6 +38,9 @@ export type Palier = {
 const COULEURS_PALIERS: { nom: string; cible: string }[] = [
   { nom: "noir", cible: "#000000" },
   { nom: "blanc", cible: "#ffffff" },
+  { nom: "bleu", cible: "#2b6cae" },
+  { nom: "rouge", cible: "#a83b3a" },
+  { nom: "vert", cible: "#46915e" },
 ];
 
 export const paliers: Palier[] = COULEURS_PALIERS.map((palier, index) => ({

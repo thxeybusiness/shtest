@@ -15,6 +15,7 @@ export function Piece({
   atteinte,
   forme = "carre",
   className,
+  style,
   ...props
 }: ComponentProps<"button"> & { atteinte: boolean; forme?: Forme }) {
   const couleurs = useCouleurs();
@@ -23,12 +24,18 @@ export function Piece({
     <button
       aria-pressed={atteinte}
       className={cn(
-        "aspect-square cursor-pointer transition-colors duration-200",
+        // `min-w-0` est indispensable : sans lui, une case carrée placée dans
+        // une rangée refuse de rétrécir sous sa taille intrinsèque et la
+        // rangée déborde.
+        "aspect-square min-w-0 cursor-pointer transition-colors duration-200 disabled:cursor-default",
         forme === "rond" ? "rounded-full" : "rounded-sm",
         className,
       )}
+      // Le fond vient du palier ; un style passé par le niveau se pose
+      // par-dessus sans l'effacer.
       style={{
         backgroundColor: atteinte ? couleurs.cible : couleurs.repos,
+        ...style,
       }}
       {...props}
     />
@@ -47,7 +54,7 @@ export function Grille({
 }) {
   return (
     <div
-      className={cn("grid w-full gap-2", className)}
+      className={cn("grid w-full min-w-0 gap-2", className)}
       style={{ gridTemplateColumns: `repeat(${colonnes}, minmax(0, 1fr))` }}
     >
       {children}
@@ -64,7 +71,7 @@ export function Rangee({
   className?: string;
 }) {
   return (
-    <div className={cn("flex w-full items-center gap-3", className)}>
+    <div className={cn("flex w-full min-w-0 items-center gap-3", className)}>
       {children}
     </div>
   );
