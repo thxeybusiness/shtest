@@ -204,10 +204,12 @@ export function Sommaire() {
             </Bande>
 
             {suivant && (
-              // Le fond lui-même dégrade d'un palier vers le suivant.
+              // Le fond lui-même dégrade d'un palier vers le suivant. La bande
+              // est haute : sa longueur fait autant pour la fluidité du
+              // passage que la façon de calculer les teintes.
               <div
                 aria-hidden
-                className="h-40 w-full"
+                className="h-72 w-full"
                 style={{ background: degradeEntre(palier, suivant) }}
               />
             )}
